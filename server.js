@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const mammoth = require('mammoth');
-const puppeteer = require('puppeteer');
+// const puppeteer = require('puppeteer'); // REMOVED FOR DEPLOYMENT
 const { OpenAI } = require('openai');
 const express = require('express');
 const multer = require('multer');
@@ -65,7 +65,16 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'chat-interface.html'));
 });
 
-// File upload endpoint - Uploads to existing Supabase bucket
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.json({ 
+    status: 'healthy', 
+    service: 'PullNorth2026 CV Generator',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// File upload endpoint - Uploads to your existing Supabase bucket
 app.post('/upload', upload.fields([
   { name: 'biography', maxCount: 1 },
   { name: 'photo', maxCount: 1 }
@@ -230,7 +239,7 @@ app.post('/generate-cv', async (req, res) => {
       }
     }
     
-    // Generate CV
+    // Generate CV (PDF disabled for now)
     const pdfPath = await generateCVFromFile(tempBioPath, tempPhotoPath);
     
     // Upload generated PDF to your existing bucket
@@ -870,39 +879,22 @@ async function readDocxFile(filePath) {
   }
 }
 
+// SIMPLIFIED PDF GENERATION (NO PUPPETEER)
 async function generatePDF(htmlPath) {
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-  });
-
-  try {
-    const page = await browser.newPage();
-    const htmlContent = fs.readFileSync(htmlPath, 'utf8');
-    
-    await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
-    
-    const pdfPath = path.join('outputs', `cv-${Date.now()}.pdf`);
-    
-    await page.pdf({
-      path: pdfPath,
-      format: 'A4',
-      printBackground: true,
-      margin: {
-        top: '0.5in',
-        right: '0.5in',
-        bottom: '0.5in',
-        left: '0.5in'
-      }
-    });
-
-    await browser.close();
-    return pdfPath;
-
-  } catch (error) {
-    await browser.close();
-    throw error;
+  console.log('⚠️ PDF generation temporarily disabled for deployment');
+  
+  // Create a dummy PDF file so rest of code works
+  const pdfPath = path.join('outputs', `cv-${Date.now()}.pdf`);
+  
+  if (!fs.existsSync('outputs')) {
+    fs.mkdirSync('outputs', { recursive: true });
   }
+  
+  // Create a simple text file instead of PDF
+  fs.writeFileSync(pdfPath, 'PDF generation disabled. CV data processed successfully.');
+  
+  console.log(`Created dummy PDF at: ${pdfPath}`);
+  return pdfPath;
 }
 
 function saveExtractionSummary() {
@@ -917,9 +909,9 @@ app.use('/outputs', express.static('outputs'));
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-  console.log('Ready to accept biography uploads and generate CVs!');
-  console.log(`Using Supabase bucket: ${BUCKET_NAME}`);
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log('📁 Ready to accept biography uploads and generate CVs!');
+  console.log(`☁️  Using Supabase bucket: PullnorthCV2026`);
 });
 
 // Export for testing
