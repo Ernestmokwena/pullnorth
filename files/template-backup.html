@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow&family=Julius+Sans+One&family=Open+Sans&family=Source+Sans+Pro&display=swap" rel="stylesheet">
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Fonts */
+    h1 { 
+      font-family: 'Julius Sans One', sans-serif;
+      font-weight: 400;
+      font-size: 32px;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    h2 {
+      font-family: 'Archivo Narrow', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    h3 {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 400;
+      font-size: 18px;
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .jobPosition span, 
+    .projectName span,
+    .smallText, 
+    .smallText span, 
+    .smallText p, 
+    .smallText a,
+    .personal-info-list li {
+      font-family: 'Source Sans Pro', sans-serif;
+    }
+
+    /* Colors */
+    .leftPanel {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+    }
+
+    .leftPanel h2 {
+      color: #ffffff;
+    }
+
+    .leftPanel a {
+      color: #ecf0f1;
+      text-decoration: none;
+    }
+
+    .rightPanel {
+      color: #333;
+    }
+
+    .bolded {
+      font-weight: 550;
+      color: #2c3e50;
+    }
+
+    .leftPanel .bolded {
+      color: #ecf0f1;
+    }
+
+    /* Layout */
+    body {
+      background: #f5f5f5;
+      width: 210mm;
+      margin: 0 auto;
+    }
+
+    page {
+      background: white;
+      display: block;
+      margin: 0 auto;
+      width: 210mm;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .container {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+
+    .leftPanel {
+      width: 30%;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .rightPanel {
+      width: 70%;
+      padding: 25px;
+    }
+
+    /* Profile Image */
+    .profile-img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 3px solid #ecf0f1;
+      margin: 0 auto 20px;
+      overflow: hidden;
+      background-color: #34495e;
+    }
+
+    .profile-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Contact Information */
+    .contact-info {
+      margin-bottom: 25px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+
+    .contact-icon {
+      width: 16px;
+      margin-right: 8px;
+      text-align: center;
+      color: #3498db;
+    }
+
+    /* Personal Information */
+    .personal-info-list {
+      list-style: none;
+      margin-bottom: 25px;
+    }
+
+    .personal-info-list li {
+      margin-bottom: 6px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    /* Skills */
+    .skills-section {
+      margin-bottom: 25px;
+    }
+
+    .skill-category {
+      margin-bottom: 15px;
+    }
+
+    .skill-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .skill-tag {
+      background: #34495e;
+      color: #ecf0f1;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 400;
+    }
+
+    /* Right Panel Sections */
+    .section {
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      border-bottom: 2px solid #2c3e50;
+      padding-bottom: 5px;
+      margin-bottom: 12px;
+    }
+
+    /* Profile Summary */
+    .profile-summary {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    /* Certifications */
+    .certification-item {
+      margin-bottom: 8px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    /* Work Experience */
+    .work-experience-item {
+      margin-bottom: 18px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .work-experience-item:last-child {
+      border-bottom: none;
+    }
+
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+
+    .company-name {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .job-responsibilities {
+      padding-left: 18px;
+      margin-top: 8px;
+    }
+
+    .job-responsibilities li {
+      margin-bottom: 4px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    /* Education */
+    .education-item {
+      margin-bottom: 15px;
+    }
+
+    /* References */
+    .reference-item {
+      margin-bottom: 12px;
+      font-size: 13px;
+    }
+
+    /* Utility Classes */
+    .text-small {
+      font-size: 13px;
+    }
+
+    .text-muted {
+      color: #666;
+    }
+
+    .mb-10 {
+      margin-bottom: 10px;
+    }
+
+    .mb-15 {
+      margin-bottom: 15px;
+    }
+
+    .mb-20 {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <page size="A4">
+    <div class="container">
+      <!-- Left Panel -->
+      <div class="leftPanel">
+        <!-- Profile Image -->
+
+
+        <!-- Contact Information -->
+        <div class="contact-info">
+          <h2>Contact</h2>
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fa fa-map-marker"></i></div>
+            <div>[[CURRENT_LOCATION]]</div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fa fa-envelope"></i></div>
+            <div>[[EMAIL_ADDRESS]]</div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fa fa-phone"></i></div>
+            <div>[[PHONE_NUMBER]]</div>
+          </div>
+        </div>
+
+        <!-- Personal Information -->
+        <div class="personal-info">
+          <h2>Personal Details</h2>
+          <ul class="personal-info-list">
+            <li><span class="bolded">Nationality:</span> [[NATIONALITY]]</li>
+            <li><span class="bolded">Languages:</span> [[LANGUAGES_SPOKEN]]</li>
+            <li><span class="bolded">Marital Status:</span> [[MARITAL_STATUS]]</li>
+            <li><span class="bolded">Height:</span> [[HEIGHT]]</li>
+            <li><span class="bolded">Driving License:</span> [[DRIVING_LICENSE]]</li>
+            <li><span class="bolded">Uniform Size:</span> [[UNIFORM_SIZE]]</li>
+            <li><span class="bolded">Tattoos/Piercings:</span> [[TATTOOS_STATUS]]</li>
+            <li><span class="bolded">Smoker/Vaper:</span> [[SMOKER_STATUS]]</li>
+            <li><span class="bolded">Seasickness:</span> [[SEASICKNESS_STATUS]]</li>
+            <li><span class="bolded">Health:</span> [[HEALTH_STATUS]]</li>
+            <li><span class="bolded">Medical Certificate:</span> [[MEDICAL_CERTIFICATE]]</li>
+            <li><span class="bolded">Criminal Record:</span> [[CRIMINAL_RECORD]]</li>
+            <li><span class="bolded">Passport:</span> [[PASSPORT_STATUS]]</li>
+            <li><span class="bolded">Swimming:</span> [[SWIMMING_ABILITY]]</li>
+          </ul>
+        </div>
+
+        <!-- Technical Skills -->
+        <div class="skills-section">
+          <h2>Technical Skills</h2>
+          <div class="skill-items">
+            [[TECHNICAL_SKILLS]]
+          </div>
+        </div>
+
+        <!-- Soft Skills -->
+        <div class="skills-section">
+          <h2>Soft Skills</h2>
+          <div class="skill-items">
+            [[SOFT_SKILLS]]
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Panel -->
+      <div class="rightPanel">
+        <!-- Name and Title -->
+        <div class="section mb-20">
+          <h1>[[FULL_NAME]]</h1>
+          <h3>[[PROFESSIONAL_TITLE]]</h3>
+                  <div class="profile-img">
+          <!-- Profile photo will be added by user -->
+        </div>
+          
+          <!-- Profile Summary -->
+          <div class="profile-summary">
+            [[PERSONAL_PROFILE]]
+          </div>
+        </div>
+
+        <!-- Certifications -->
+        <div class="section">
+          <div class="section-title">
+            <h2>Certifications & Licenses</h2>
+          </div>
+          [[CERTIFICATIONS_LIST]]
+        </div>
+
+        <!-- Work Experience -->
+        <div class="section">
+          <div class="section-title">
+            <h2>Work Experience</h2>
+          </div>
+          [[WORK_EXPERIENCE]]
+        </div>
+
+        <!-- Education -->
+        <div class="section">
+          <div class="section-title">
+            <h2>Education</h2>
+          </div>
+          [[EDUCATION_DETAILS]]
+        </div>
+
+        <!-- References -->
+        <div class="section">
+          <div class="section-title">
+            <h2>References</h2>
+          </div>
+          <div class="reference-item">
+            <div class="bolded">[[REFERENCE_1_NAME]]</div>
+            <div>[[REFERENCE_1_POSITION]]</div>
+            <div>[[REFERENCE_1_CONTACT]]</div>
+          </div>
+          <div class="reference-item">
+            <div class="bolded">[[REFERENCE_2_NAME]]</div>
+            <div>[[REFERENCE_2_POSITION]]</div>
+            <div>[[REFERENCE_2_CONTACT]]</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </page>
+</body>
+</html>

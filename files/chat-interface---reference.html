@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PullNorth Chatbot</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <style>
+        * {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .main_header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+            color: white;
+            padding: 15px 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .company-logo {
+            width: 40px;
+            height: 40px;
+            background-color: #4a90e2;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            color: white;
+        }
+
+        .company-name {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Chat Area */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #efeae2;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath fill='%23f0f2f5' fill-opacity='0.1' d='M0,0 L100,0 L100,100 L0,100 Z'%3E%3C/path%3E%3C/svg%3E");
+            overflow: hidden;
+        }
+
+        /* Chat Header */
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f0f2f5;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .chat-user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-avatar {
+            background: linear-gradient(135deg, #4a90e2 0%, #1a365d 100%);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            margin-right: 15px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: white;
+            font-size: 16px;
+        }
+
+        .chat-user-info h2 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1c1e21;
+        }
+
+        .chat-status {
+            font-size: 13px;
+            color: #667781;
+            margin-top: 2px;
+        }
+
+        .chat-actions {
+            display: flex;
+            gap: 25px;
+            color: #54656f;
+            font-size: 20px;
+        }
+
+        /* Messages Container */
+        .messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Individual Message */
+        .message {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            position: relative;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+
+        .message.incoming {
+            align-self: flex-start;
+            background-color: white;
+            border-top-left-radius: 0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .message.outgoing {
+            align-self: flex-end;
+            background-color: #d9fdd3;
+            border-top-right-radius: 0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: #667781;
+            text-align: right;
+            margin-top: 5px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .message-time i {
+            font-size: 14px;
+        }
+
+        /* Message Input */
+        .message-input-container {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #f0f2f5;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .message-input {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 24px;
+            padding: 10px 20px;
+            margin: 0 15px;
+        }
+
+        .message-input i {
+            color: #54656f;
+            font-size: 22px;
+            cursor: pointer;
+            margin: 0 8px;
+        }
+
+        .message-input input {
+            border: none;
+            outline: none;
+            flex: 1;
+            padding: 8px 12px;
+            font-size: 15px;
+            background-color: transparent;
+        }
+
+        .send-btn {
+            background-color: #008069;
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .send-btn:hover {
+            background-color: #017561;
+        }
+
+        .send-btn i {
+            font-size: 20px;
+            transform: rotate(45deg);
+        }
+
+        /* Typing indicator */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            border-top-left-radius: 0;
+            align-self: flex-start;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            width: fit-content;
+            margin-top: 5px;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background-color: #9ca3af;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: translateY(0); opacity: 0.5; }
+            40% { transform: translateY(-5px); opacity: 1; }
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            padding: 0 20px 15px;
+            flex-wrap: wrap;
+        }
+
+        .quick-action-btn {
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            padding: 10px 18px;
+            font-size: 14px;
+            color: #1c1e21;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .quick-action-btn:hover {
+            background-color: #f5f5f5;
+            border-color: #4a90e2;
+        }
+
+        /* Message Status Icons */
+        .status-check {
+            color: #667781;
+        }
+
+        .status-double-check {
+            color: #53bdeb;
+        }
+
+        .status-double-check-blue {
+            color: #4a90e2;
+        }
+
+        /* Upload indicator */
+        .upload-indicator {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            align-self: flex-start;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            max-width: 70%;
+        }
+
+        .upload-indicator .bi-file-earmark-arrow-up {
+            color: #4a90e2;
+            font-size: 24px;
+        }
+
+        /* Circular progress indicator */
+        .circular-progress {
+            position: relative;
+            width: 50px;
+            height: 50px;
+        }
+
+        .circular-progress svg {
+            width: 50px;
+            height: 50px;
+            transform: rotate(-90deg);
+        }
+
+        .circular-progress-circle {
+            fill: none;
+            stroke-width: 4;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.3s;
+        }
+
+        .circular-progress-background {
+            stroke: #e0e0e0;
+        }
+
+        .circular-progress-foreground {
+            stroke: #4a90e2;
+            stroke-dasharray: 125.6;
+            stroke-dashoffset: 125.6;
+        }
+
+        .circular-progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+            font-weight: 600;
+            color: #4a90e2;
+        }
+
+        .upload-filename {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .upload-status {
+            font-size: 12px;
+            color: #667781;
+        }
+
+        /* Hidden file input */
+        .file-input {
+            display: none;
+        }
+
+        /* CV Generation Status */
+        .cv-status-message {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            align-self: flex-start;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cv-status-message .bi-file-earmark-pdf {
+            color: #e74c3c;
+            font-size: 24px;
+        }
+
+        .cv-status-message .bi-check-circle {
+            color: #008069;
+            font-size: 24px;
+        }
+
+        .cv-status-message .bi-hourglass-split {
+            color: #4a90e2;
+            font-size: 24px;
+        }
+
+        .cv-status-message .bi-exclamation-triangle {
+            color: #e74c3c;
+            font-size: 24px;
+        }
+
+        .cv-status-content {
+            flex: 1;
+        }
+
+        .cv-status-content strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #1c1e21;
+        }
+
+        .cv-status-content small {
+            color: #667781;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .download-btn {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #008069;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .download-btn:hover {
+            background-color: #017561;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-area">
+        <div class="chat-header">
+            <div class="chat-user-info">
+                <div class="chat-avatar">PN</div>
+                <div>
+                    <h2>PullNorth CV Buddy</h2>
+                    <div class="chat-status">Online</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="messages" id="messagesContainer">
+            <!-- Welcome Message -->
+            <div class="message incoming">
+                Hello! I'm your PullNorth CV Assistant. I can help you generate professional CVs from biography documents. Please upload your biography.docx file using the paperclip icon to get started.
+                <div class="message-time">10:40</div>
+            </div>
+
+            <!-- Upload Instructions -->
+            <div class="message incoming">
+                <strong>How to generate a CV:</strong><br>
+                1. Click the Upload document icon <br>
+                2. Select your biography.docx file<br>
+                3. I'll extract all information and generate a professional CV<br>
+                4. You'll receive a downloadable PDF
+                <div class="message-time">10:40</div>
+            </div>
+        </div>
+
+        <div class="message-input-container">
+            <div class="message-input">
+                <input type="text" placeholder="Type a message or upload a biography.docx file" id="messageInput">
+                <i class="bi bi-paperclip" id="uploadButton"></i>
+                <input type="file" id="fileInput" class="file-input" accept=".docx">
+            </div>
+            <button class="send-btn" id="sendButton">
+                <i class="bi bi-send"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const messageInput = document.getElementById('messageInput');
+            const sendButton = document.getElementById('sendButton');
+            const uploadButton = document.getElementById('uploadButton');
+            const fileInput = document.getElementById('fileInput');
+            const messagesContainer = document.getElementById('messagesContainer');
+            
+            // CV-related responses
+            const cvResponses = {
+                "help": "I can help you generate professional CVs. Just upload a biography.docx file using the paperclip icon 📎. I'll extract all information and create a beautifully formatted CV PDF.",
+                "upload": "Click the upload document icon to upload your biography.docx file. I'll process it and generate a professional CV.",
+                "status": "Ready to process your biography file. Upload a .docx file to get started."
+            };
+            
+            // Send message function
+            function sendMessage() {
+                const messageText = messageInput.value.trim();
+                if (!messageText) return;
+                
+                // Add outgoing message
+                const outgoingMessage = document.createElement('div');
+                outgoingMessage.className = 'message outgoing';
+                outgoingMessage.innerHTML = `
+                    ${messageText}
+                    <div class="message-time">${getCurrentTime()} <i class="bi bi-check2-all status-double-check-blue"></i></div>
+                `;
+                messagesContainer.appendChild(outgoingMessage);
+                
+                // Clear input
+                messageInput.value = '';
+                
+                // Scroll to bottom
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                
+                // Show typing indicator
+                showTypingIndicator();
+                
+                // Simulate bot response after delay
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    
+                    // Add incoming message
+                    const incomingMessage = document.createElement('div');
+                    incomingMessage.className = 'message incoming';
+                    
+                    // Find appropriate response based on keywords
+                    let botResponse = cvResponses.help;
+                    
+                    const lowerMessage = messageText.toLowerCase();
+                    
+                    if (lowerMessage.includes('upload') || lowerMessage.includes('biography')) {
+                        botResponse = cvResponses.upload;
+                    } else if (lowerMessage.includes('status') || lowerMessage.includes('progress')) {
+                        botResponse = cvResponses.status;
+                    } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
+                        botResponse = "Hello! I'm your PullNorth CV Assistant. Upload a biography.docx file using the paperclip icon to generate a professional CV.";
+                    } else if (lowerMessage.includes('thank')) {
+                        botResponse = "You're welcome! Let me know if you need to process another biography file.";
+                    }
+                    
+                    incomingMessage.innerHTML = `
+                        ${botResponse}
+                        <div class="message-time">${getCurrentTime()}</div>
+                    `;
+                    messagesContainer.appendChild(incomingMessage);
+                    
+                    // Scroll to bottom
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }, 800 + Math.random() * 500);
+            }
+            
+            // Show typing indicator
+            function showTypingIndicator() {
+                let typingIndicator = document.getElementById('typingIndicator');
+                if (!typingIndicator) {
+                    typingIndicator = document.createElement('div');
+                    typingIndicator.className = 'typing-indicator';
+                    typingIndicator.id = 'typingIndicator';
+                    typingIndicator.innerHTML = `
+                        <div class="typing-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    `;
+                    messagesContainer.appendChild(typingIndicator);
+                }
+                typingIndicator.style.display = 'flex';
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+            
+            // Hide typing indicator
+            function hideTypingIndicator() {
+                const typingIndicator = document.getElementById('typingIndicator');
+                if (typingIndicator) {
+                    typingIndicator.style.display = 'none';
+                }
+            }
+            
+            // Get current time in HH:MM format
+            function getCurrentTime() {
+                const now = new Date();
+                return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+            }
+            
+            // Handle file upload
+            uploadButton.addEventListener('click', function() {
+                fileInput.click();
+            });
+            
+            fileInput.addEventListener('change', async function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                // Check if it's a .docx file
+                if (!file.name.toLowerCase().endsWith('.docx')) {
+                    showErrorMessage('Please upload a .docx file (Microsoft Word document).');
+                    fileInput.value = '';
+                    return;
+                }
+                
+                // Show upload indicator with circular progress
+                showUploadIndicator(file.name);
+                
+                try {
+                    // Upload file to server
+                    const formData = new FormData();
+                    formData.append('biography', file);
+                    
+                    // Start upload
+                    updateCircularProgress(30, 'Uploading...');
+                    
+                    const response = await fetch('/upload', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        // Update progress for processing
+                        updateCircularProgress(60, 'Processing...');
+                        
+                        // Show CV generation in progress
+                        showCVGenerationInProgress();
+                        
+                        // Start CV generation
+                        updateCircularProgress(80, 'Generating...');
+                        
+                        const generateResponse = await fetch('/generate-cv', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ filename: result.filename })
+                        });
+                        
+                        const generateResult = await generateResponse.json();
+                        
+                        // Update to complete
+                        updateCircularProgress(100, 'Complete!');
+                        
+                        if (generateResult.success) {
+                            setTimeout(() => {
+                                showCVGeneratedSuccess(generateResult.pdfUrl, generateResult.pdfPath);
+                            }, 500);
+                        } else {
+                            showErrorMessage(generateResult.error || 'Failed to generate CV');
+                        }
+                        
+                    } else {
+                        showErrorMessage(result.error || 'Upload failed');
+                    }
+                    
+                } catch (error) {
+                    console.error('Upload error:', error);
+                    showErrorMessage('Upload failed. Please try again.');
+                } finally {
+                    // Clean up
+                    fileInput.value = '';
+                }
+            });
+            
+            // Show upload indicator with circular progress
+            function showUploadIndicator(filename) {
+                const uploadIndicator = document.createElement('div');
+                uploadIndicator.className = 'upload-indicator';
+                uploadIndicator.id = 'uploadIndicator';
+                uploadIndicator.innerHTML = `
+                    <i class="bi bi-file-earmark-arrow-up"></i>
+                    <div class="circular-progress" id="circularProgress">
+                        <svg>
+                            <circle class="circular-progress-circle circular-progress-background" cx="25" cy="25" r="20"></circle>
+                            <circle class="circular-progress-circle circular-progress-foreground" cx="25" cy="25" r="20" stroke-dasharray="125.6" stroke-dashoffset="125.6"></circle>
+                        </svg>
+                        <div class="circular-progress-text">0%</div>
+                    </div>
+                    <div style="flex: 1">
+                        <div class="upload-filename">${filename}</div>
+                        <div class="upload-status" id="uploadStatus">Preparing upload...</div>
+                    </div>
+                `;
+                
+                // Remove existing indicator
+                const existingIndicator = document.getElementById('uploadIndicator');
+                if (existingIndicator) {
+                    existingIndicator.remove();
+                }
+                
+                messagesContainer.appendChild(uploadIndicator);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+            
+            // Update circular progress
+            function updateCircularProgress(percent, statusText) {
+                const circularProgress = document.getElementById('circularProgress');
+                const progressText = document.querySelector('.circular-progress-text');
+                const progressForeground = document.querySelector('.circular-progress-foreground');
+                const uploadStatus = document.getElementById('uploadStatus');
+                
+                if (circularProgress && progressForeground && progressText && uploadStatus) {
+                    // Calculate stroke dash offset (circumference = 2 * π * r = 125.6)
+                    const circumference = 125.6;
+                    const offset = circumference - (percent / 100) * circumference;
+                    
+                    progressForeground.style.strokeDashoffset = offset;
+                    progressText.textContent = `${percent}%`;
+                    uploadStatus.textContent = statusText;
+                    
+                    // Change color based on progress
+                    if (percent >= 100) {
+                        progressForeground.style.stroke = '#008069'; // Green for complete
+                        progressText.style.color = '#008069';
+                    }
+                }
+                
+                // Hide indicator after completion
+                if (percent >= 100) {
+                    setTimeout(() => {
+                        hideUploadIndicator();
+                    }, 1000);
+                }
+            }
+            
+            // Hide upload indicator
+            function hideUploadIndicator() {
+                const uploadIndicator = document.getElementById('uploadIndicator');
+                if (uploadIndicator) {
+                    uploadIndicator.remove();
+                }
+            }
+            
+            // Show CV generation in progress
+            function showCVGenerationInProgress() {
+                const statusMessage = document.createElement('div');
+                statusMessage.className = 'cv-status-message';
+                statusMessage.innerHTML = `
+                    
+                    <div class="cv-status-content">
+                        <strong>Processing Biography...</strong>
+                        <small>Extracting information and generating professional CV. This may take a moment.</small>
+                    </div>
+                `;
+                
+                messagesContainer.appendChild(statusMessage);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+            
+            // Show CV generated successfully
+            function showCVGeneratedSuccess(pdfUrl, pdfPath) {
+                const statusMessage = document.createElement('div');
+                statusMessage.className = 'cv-status-message';
+                statusMessage.innerHTML = `
+                    <i class="bi bi-check-circle"></i>
+                    <div class="cv-status-content">
+                        <strong>CV Generated Successfully!</strong>
+                        <small>Your professional CV has been created and is ready to download.</small>
+                        <button class="download-btn" id="downloadPdfBtn">
+                            <i class="bi bi-download"></i> Download PDF
+                        </button>
+                    </div>
+                `;
+                
+                messagesContainer.appendChild(statusMessage);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                
+                // Add download functionality
+                document.getElementById('downloadPdfBtn').addEventListener('click', function() {
+                    window.open(pdfUrl, '_blank');
+                });
+            }
+            
+            // Show error message
+            function showErrorMessage(message) {
+                const errorMessage = document.createElement('div');
+                errorMessage.className = 'cv-status-message';
+                errorMessage.innerHTML = `
+                    <i class="bi bi-exclamation-triangle"></i>
+                    <div class="cv-status-content">
+                        <strong>Error</strong>
+                        <small>${message}</small>
+                    </div>
+                `;
+                
+                messagesContainer.appendChild(errorMessage);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+            
+            // Send message on button click
+            sendButton.addEventListener('click', sendMessage);
+            
+            // Send message on Enter key
+            messageInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // Initial scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        });
+    </script>
+</body>
+</html>

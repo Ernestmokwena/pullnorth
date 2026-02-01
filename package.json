@@ -1,0 +1,36 @@
+{
+  "name": "cv-generator",
+  "version": "1.0.0",
+  "description": "AI-Powered CV Generator with Sequential OpenAI Queries",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.93.3",
+    "cors": "^2.8.6",
+    "dotenv": "^16.3.1",
+    "express": "^4.22.1",
+    "express-fileupload": "^1.5.2",
+    "express-session": "^1.19.0",
+    "mammoth": "^1.11.0",
+    "multer": "^1.4.5-lts.1",
+    "openai": "^4.104.0",
+    "puppeteer": "^21.11.0",
+    "sqlite3": "^5.1.7",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "cv",
+    "resume",
+    "generator",
+    "openai",
+    "ai"
+  ],
+  "author": "",
+  "license": "MIT"
+}
