@@ -21,17 +21,14 @@
             overflow: hidden;
         }
 
-        /* Welcome Splash Screen - GIF 100% visible */
+        /* Welcome Splash Screen */
         .welcome-splash {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            /* background-image: url("https://cdn.dribbble.com/userupload/41693223/file/original-2dce7e441069011e71327674d0444ed7.gif"); */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background-color: white;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -41,7 +38,6 @@
             overflow: hidden;
         }
 
-        /* NO OVERLAY - GIF is 100% visible */
         /* Logo container */
         .splash-logo-container {
             position: relative;
@@ -54,7 +50,7 @@
             gap: 40px;
         }
 
-        /* Logo with PullNorth image */
+        /* logo animation ,static parts */
         .splash-logo {
             width: 220px;
             height: 220px;
@@ -66,7 +62,7 @@
                     drop-shadow(0 0 80px rgba(255, 255, 255, 0.3));
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
-            border-radius: 30px;
+            border-radius: 50%; 
             padding: 20px;
             border: 2px solid rgba(255, 255, 255, 0.2);
         }
@@ -75,19 +71,7 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-        }
-
-        /* Loading indicator */
-        .splash-loading {
-            width: 80px;
-            height: 80px;
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            box-shadow: 0 0 40px rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(5px);
-            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%; 
         }
 
         /* Animations */
@@ -122,11 +106,7 @@
             }
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Chat Area - FIXED: Use flex to fill available space */
+        /* Chat Area */
         .chat-area {
             flex: 1;
             display: flex;
@@ -135,7 +115,7 @@
             position: relative;
             opacity: 0;
             animation: fadeIn 0.5s ease-out 3.5s forwards;
-            overflow: hidden; /* Prevent body scroll */
+            overflow: hidden;
         }
 
         @keyframes fadeIn {
@@ -144,45 +124,37 @@
             }
         }
 
-        /* Fisheye animation container with speed control */
+        /* Fisheye animation container - NO GIF, SIMPLE BACKGROUND */
         .fisheye-background {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            /* background-image: url("https://cdn.dribbble.com/userupload/23180807/file/original-44cc773a035eeaa7e92b455849fb2999.gif"); */
-            background-size: 120% 120%;
-            background-position: center;
-            background-repeat: no-repeat;
+            background-color: #efeae2;
             opacity: 0.08;
             filter: blur(0.5px);
             z-index: 0;
             animation: slowPan 60s infinite alternate ease-in-out;
         }
 
-        /* Animation to make the GIF appear slower */
+        /* Animation to make the background appear slower */
         @keyframes slowPan {
             0% {
-                background-size: 120% 120%;
                 background-position: 0% 0%;
                 transform: scale(1);
             }
             25% {
-                background-size: 115% 115%;
                 background-position: 25% 25%;
             }
             50% {
-                background-size: 110% 110%;
                 background-position: 50% 50%;
                 transform: scale(1.02);
             }
             75% {
-                background-size: 115% 115%;
                 background-position: 75% 75%;
             }
             100% {
-                background-size: 120% 120%;
                 background-position: 100% 100%;
                 transform: scale(1);
             }
@@ -203,7 +175,7 @@
             z-index: 1;
         }
 
-        /* Chat Header - FIXED */
+        /* Chat Header , FIXED */
         .chat-header {
             display: flex;
             justify-content: space-between;
@@ -219,7 +191,7 @@
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
             background-color: rgba(240, 242, 245, 0.9);
-            height: 70px; /* Fixed height */
+            height: 70px;
         }
 
         .chat-user-info {
@@ -228,7 +200,7 @@
             z-index: 2;
         }
 
-        /* Updated Chat Avatar to use PullNorth logo */
+        /*  Chat Avatar to use PullNorth logo */
         .chat-avatar {
             width: 42px;
             height: 42px;
@@ -261,7 +233,7 @@
             margin-top: 2px;
         }
 
-        /* Messages Container - FIXED SCROLL ISSUE */
+        /* Messages Container - SCROLL */
         .messages {
             flex: 1;
             padding: 80px 20px 90px;
@@ -271,9 +243,6 @@
             gap: 10px;
             position: relative;
             z-index: 1;
-            /* Allow natural scrolling */
-            max-height: none;
-            height: auto;
         }
 
         /* Individual Message */
@@ -315,7 +284,7 @@
             font-size: 14px;
         }
 
-        /* Message Input Container - FIXED FOOTER */
+        /* Message Input Container ,FIXED FOOTER */
         .message-input-container {
             display: flex;
             align-items: center;
@@ -330,7 +299,7 @@
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
             background-color: rgba(240, 242, 245, 0.95);
-            height: 80px; /* Fixed height */
+            height: 80px;
         }
 
         .message-input {
@@ -569,7 +538,7 @@
             background-color: #017561;
         }
 
-        /* Mobile Responsiveness for Splash */
+        /* Mobile Responsiveness */
         @media (max-width: 1200px) {
             .splash-logo {
                 width: 200px;
@@ -590,14 +559,9 @@
                 width: 150px;
                 height: 150px;
                 padding: 15px;
-                border-radius: 25px;
             }
             .splash-logo-container {
                 gap: 30px;
-            }
-            .splash-loading {
-                width: 70px;
-                height: 70px;
             }
             
             /* Mobile styles for chat interface */
@@ -622,8 +586,6 @@
             
             .messages {
                 padding: 70px 12px 80px;
-                /* Remove max-height constraint */
-                max-height: none;
             }
             
             .message {
@@ -632,13 +594,11 @@
                 font-size: 14px;
             }
             
-            /* FIXED: Message input container */
             .message-input-container {
                 padding: 10px 12px;
                 height: 75px;
             }
             
-            /* FIXED: Message input area */
             .message-input {
                 padding: 8px 12px;
                 margin: 0 10px 0 0;
@@ -656,7 +616,6 @@
                 min-width: 0;
             }
             
-            /* FIXED: Send button */
             .send-btn {
                 width: 44px;
                 height: 44px;
@@ -668,7 +627,6 @@
                 font-size: 18px;
             }
             
-            /* FIXED: Mobile upload indicator */
             .upload-indicator,
             .cv-status-message {
                 max-width: 85%;
@@ -684,7 +642,6 @@
                 font-size: 20px;
             }
             
-            /* FIXED: Typing progress for mobile */
             .typing-progress-percent {
                 font-size: 13px;
                 min-width: 35px;
@@ -716,7 +673,6 @@
                 font-size: 13px;
             }
             
-            /* FIXED: Smaller photo preview for mobile */
             .photo-preview {
                 width: 40px;
                 height: 40px;
@@ -728,15 +684,9 @@
                 width: 130px;
                 height: 130px;
                 padding: 12px;
-                border-radius: 20px;
             }
             .splash-logo-container {
                 gap: 25px;
-            }
-            .splash-loading {
-                width: 60px;
-                height: 60px;
-                border-width: 4px;
             }
             
             .messages {
@@ -753,7 +703,6 @@
                 gap: 8px;
             }
             
-            /* FIXED: Extra small screens */
             .chat-header {
                 height: 60px;
             }
@@ -787,7 +736,6 @@
                 font-size: 16px;
             }
             
-            /* FIXED: Even smaller for very small screens */
             .typing-progress-percent {
                 font-size: 12px;
                 min-width: 32px;
@@ -812,7 +760,7 @@
             }
         }
 
-        /* Custom scrollbar for messages container */
+        /*  scrollbar for messages container */
         .messages::-webkit-scrollbar {
             width: 8px;
         }
@@ -839,19 +787,18 @@
     </style>
 </head>
 <body>
-    <!-- Welcome Splash Screen - GIF 100% visible, no overlay -->
+    <!-- Welcome Splash Screen - WHITE BACKGROUND, NO GIF -->
     <div class="welcome-splash" id="welcomeSplash">
         <div class="splash-logo-container">
             <div class="splash-logo">
                 <img src="../pullnorth.png" alt="PullNorth Logo">
             </div>
-            <div class="splash-loading"></div>
         </div>
     </div>
 
     <!-- Main Chat Interface -->
     <div class="chat-area">
-        <!-- Fisheye animation background with controlled speed -->
+        <!-- Fisheye animation background - NO GIF -->
         <div class="fisheye-background"></div>
         
         <div class="chat-header">
@@ -980,7 +927,6 @@
             
             // Scroll to bottom function
             function scrollToBottom() {
-                // Use requestAnimationFrame for smooth scrolling
                 requestAnimationFrame(() => {
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
                 });
@@ -1308,7 +1254,6 @@
             const observer = new MutationObserver(function(mutations) {
                 for (let mutation of mutations) {
                     if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-                        // Small delay to ensure DOM is updated
                         setTimeout(scrollToBottom, 50);
                     }
                 }
@@ -1320,7 +1265,7 @@
             // Initial scroll to bottom
             setTimeout(() => {
                 scrollToBottom();
-            }, 4000); // Wait for splash screen to fade out
+            }, 4000);
             
             // Also scroll to bottom when window is resized
             window.addEventListener('resize', scrollToBottom);
