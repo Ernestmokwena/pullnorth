@@ -21,13 +21,185 @@
             overflow: hidden;
         }
 
+        /* Welcome Splash Screen - GIF 100% visible */
+        .welcome-splash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* background-image: url("https://cdn.dribbble.com/userupload/41693223/file/original-2dce7e441069011e71327674d0444ed7.gif"); */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeOut 0.5s ease-out 3.5s forwards;
+            overflow: hidden;
+        }
+
+        /* NO OVERLAY - GIF is 100% visible */
+        /* Logo container */
+        .splash-logo-container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            animation: slideUp 1s ease-out 0.5s both;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+
+        /* Logo with PullNorth image */
+        .splash-logo {
+            width: 220px;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s ease-in-out infinite;
+            filter: drop-shadow(0 15px 40px rgba(0, 0, 0, 0.7))
+                    drop-shadow(0 0 80px rgba(255, 255, 255, 0.3));
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .splash-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* Loading indicator */
+        .splash-loading {
+            width: 80px;
+            height: 80px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Animations */
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                filter: drop-shadow(0 15px 40px rgba(0, 0, 0, 0.7))
+                        drop-shadow(0 0 80px rgba(255, 255, 255, 0.3));
+            }
+            50% {
+                transform: scale(1.1);
+                filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.9))
+                        drop-shadow(0 0 120px rgba(255, 255, 255, 0.5));
+            }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         /* Chat Area */
         .chat-area {
             flex: 1;
             display: flex;
             flex-direction: column;
             background-color: #efeae2;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath fill='%23f0f2f5' fill-opacity='0.1' d='M0,0 L100,0 L100,100 L0,100 Z'%3E%3C/path%3E%3C/svg%3E");
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out 3.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Fisheye animation container with speed control */
+        .fisheye-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* background-image: url("https://cdn.dribbble.com/userupload/23180807/file/original-44cc773a035eeaa7e92b455849fb2999.gif"); */
+            background-size: 120% 120%;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.08;
+            filter: blur(0.5px);
+            z-index: 0;
+            animation: slowPan 60s infinite alternate ease-in-out;
+        }
+
+        /* Animation to make the GIF appear slower */
+        @keyframes slowPan {
+            0% {
+                background-size: 120% 120%;
+                background-position: 0% 0%;
+                transform: scale(1);
+            }
+            25% {
+                background-size: 115% 115%;
+                background-position: 25% 25%;
+            }
+            50% {
+                background-size: 110% 110%;
+                background-position: 50% 50%;
+                transform: scale(1.02);
+            }
+            75% {
+                background-size: 115% 115%;
+                background-position: 75% 75%;
+            }
+            100% {
+                background-size: 120% 120%;
+                background-position: 100% 100%;
+                transform: scale(1);
+            }
+        }
+
+        /* Overlay to soften the background */
+        .chat-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, 
+                rgba(239, 234, 226, 0.9) 0%,
+                rgba(239, 234, 226, 0.7) 50%,
+                rgba(239, 234, 226, 0.9) 100%);
+            z-index: 1;
         }
 
         /* Chat Header - FIXED */
@@ -43,15 +215,19 @@
             left: 0;
             right: 0;
             z-index: 100;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            background-color: rgba(240, 242, 245, 0.9);
         }
 
         .chat-user-info {
             display: flex;
             align-items: center;
+            z-index: 2;
         }
 
+        /* Updated Chat Avatar to use PullNorth logo */
         .chat-avatar {
-            background: linear-gradient(135deg, #4a90e2 0%, #1a365d 100%);
             width: 42px;
             height: 42px;
             border-radius: 50%;
@@ -59,9 +235,16 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
-            color: white;
-            font-size: 16px;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 5px;
         }
 
         .chat-user-info h2 {
@@ -84,7 +267,9 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            max-height: 100vh; /* This ensures scrolling */
+            max-height: 100vh;
+            position: relative;
+            z-index: 1;
         }
 
         /* Individual Message */
@@ -95,20 +280,20 @@
             position: relative;
             word-wrap: break-word;
             line-height: 1.4;
+            background-color: white;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
 
         .message.incoming {
             align-self: flex-start;
-            background-color: white;
             border-top-left-radius: 0;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            background-color: white;
         }
 
         .message.outgoing {
             align-self: flex-end;
             background-color: #d9fdd3;
             border-top-right-radius: 0;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
 
         .message-time {
@@ -138,7 +323,9 @@
             right: 0;
             z-index: 100;
             padding: 15px;
-
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            background-color: rgba(240, 242, 245, 0.95);
         }
 
         .message-input {
@@ -149,6 +336,7 @@
             border-radius: 24px;
             padding: 10px 20px;
             margin: 0 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
 
         .message-input i {
@@ -156,6 +344,11 @@
             font-size: 22px;
             cursor: pointer;
             margin: 0 8px;
+            transition: color 0.2s;
+        }
+
+        .message-input i:hover {
+            color: #4a90e2;
         }
 
         .message-input input {
@@ -165,6 +358,11 @@
             padding: 8px 12px;
             font-size: 15px;
             background-color: transparent;
+            color: #1c1e21;
+        }
+
+        .message-input input::placeholder {
+            color: #9ca3af;
         }
 
         .send-btn {
@@ -182,6 +380,7 @@
             flex-shrink: 0;
             padding: 0;
             margin-right: 5px;
+            box-shadow: 0 2px 8px rgba(0, 128, 105, 0.2);
         }
 
         .send-btn:hover {
@@ -388,8 +587,38 @@
             background-color: #017561;
         }
 
-        /* Mobile Responsiveness */
+        /* Mobile Responsiveness for Splash */
+        @media (max-width: 1200px) {
+            .splash-logo {
+                width: 200px;
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .splash-logo {
+                width: 180px;
+                height: 180px;
+                padding: 15px;
+            }
+        }
+
         @media (max-width: 768px) {
+            .splash-logo {
+                width: 150px;
+                height: 150px;
+                padding: 15px;
+                border-radius: 25px;
+            }
+            .splash-logo-container {
+                gap: 30px;
+            }
+            .splash-loading {
+                width: 70px;
+                height: 70px;
+            }
+            
+            /* Original mobile styles */
             .chat-header {
                 padding: 12px 16px;
             }
@@ -397,7 +626,6 @@
             .chat-avatar {
                 width: 36px;
                 height: 36px;
-                font-size: 14px;
                 margin-right: 12px;
             }
             
@@ -411,7 +639,7 @@
             
             .messages {
                 padding: 70px 16px 80px;
-                max-height: 100vh; /* Keep for mobile too */
+                max-height: 100vh;
             }
             
             .message {
@@ -505,9 +733,24 @@
         }
 
         @media (max-width: 480px) {
+            .splash-logo {
+                width: 130px;
+                height: 130px;
+                padding: 12px;
+                border-radius: 20px;
+            }
+            .splash-logo-container {
+                gap: 25px;
+            }
+            .splash-loading {
+                width: 60px;
+                height: 60px;
+                border-width: 4px;
+            }
+            
             .messages {
                 padding: 65px 12px 75px;
-                max-height: 100vh; /* Keep for mobile too */
+                max-height: 100vh;
             }
             
             .message {
@@ -532,8 +775,6 @@
             }
         }
 
-
-        /* just for scrollbaar */
         /* Custom scrollbar for messages container */
         .messages::-webkit-scrollbar {
             width: 8px;
@@ -559,14 +800,29 @@
             scrollbar-color: rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.05);
         }
 
-
     </style>
 </head>
 <body>
+    <!-- Welcome Splash Screen - GIF 100% visible, no overlay -->
+    <div class="welcome-splash" id="welcomeSplash">
+        <div class="splash-logo-container">
+            <div class="splash-logo">
+                <img src="../pullnorth.png" alt="PullNorth Logo">
+            </div>
+            <div class="splash-loading"></div>
+        </div>
+    </div>
+
+    <!-- Main Chat Interface -->
     <div class="chat-area">
+        <!-- Fisheye animation background with controlled speed -->
+        <div class="fisheye-background"></div>
+        
         <div class="chat-header">
             <div class="chat-user-info">
-                <div class="chat-avatar">PN</div>
+                <div class="chat-avatar">
+                    <img src="../pullnorth.png" alt="PullNorth Logo">
+                </div>
                 <div>
                     <h2>PullNorth CV Buddy</h2>
                     <div class="chat-status">Online</div>
@@ -595,7 +851,7 @@
         <div class="message-input-container">
             <div class="message-input">
                 <input type="text" placeholder="Type a message or upload files" id="messageInput">
-                <i class="bi bi-camera" id="photoButton" title="Upload profile photo"></i>
+                <i class="bi bi-images" id="photoButton" title="Upload profile photo"></i>
                 <i class="bi bi-paperclip" id="uploadButton" title="Upload biography document"></i>
                 <input type="file" id="fileInput" class="file-input" accept=".docx">
                 <input type="file" id="photoInput" class="file-input" accept="image/*">
@@ -607,7 +863,9 @@
     </div>
 
     <script>
+        // JavaScript code remains exactly the same as before
         document.addEventListener('DOMContentLoaded', function() {
+            const welcomeSplash = document.getElementById('welcomeSplash');
             const messageInput = document.getElementById('messageInput');
             const sendButton = document.getElementById('sendButton');
             const uploadButton = document.getElementById('uploadButton');
@@ -966,9 +1224,9 @@
                 const statusMessage = document.createElement('div');
                 statusMessage.className = 'cv-status-message';
                 statusMessage.innerHTML = `
-                    <i class="bi bi-check-circle"></i>
+                    
                     <div class="cv-status-content">
-                        <strong>CV Generated Successfully!</strong>
+                        <strong><i class="bi bi-check-circle"></i> CV Generated Successfully!</strong>
                         <small>Your professional CV has been created and is ready to download.</small>
                         <button class="download-btn" id="downloadPdfBtn">
                             <i class="bi bi-download"></i> Download PDF
@@ -1012,7 +1270,9 @@
             });
             
             // Initial scroll to bottom
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            setTimeout(() => {
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 4000); // Wait for splash screen to fade out
         });
     </script>
 </body>
