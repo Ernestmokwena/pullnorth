@@ -126,7 +126,7 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Chat Area */
+        /* Chat Area - FIXED: Use flex to fill available space */
         .chat-area {
             flex: 1;
             display: flex;
@@ -135,6 +135,7 @@
             position: relative;
             opacity: 0;
             animation: fadeIn 0.5s ease-out 3.5s forwards;
+            overflow: hidden; /* Prevent body scroll */
         }
 
         @keyframes fadeIn {
@@ -218,6 +219,7 @@
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
             background-color: rgba(240, 242, 245, 0.9);
+            height: 70px; /* Fixed height */
         }
 
         .chat-user-info {
@@ -259,7 +261,7 @@
             margin-top: 2px;
         }
 
-        /* Messages Container - SCROLL FIX */
+        /* Messages Container - FIXED SCROLL ISSUE */
         .messages {
             flex: 1;
             padding: 80px 20px 90px;
@@ -267,9 +269,11 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            max-height: 100vh;
             position: relative;
             z-index: 1;
+            /* Allow natural scrolling */
+            max-height: none;
+            height: auto;
         }
 
         /* Individual Message */
@@ -326,6 +330,7 @@
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
             background-color: rgba(240, 242, 245, 0.95);
+            height: 80px; /* Fixed height */
         }
 
         .message-input {
@@ -428,7 +433,7 @@
             40% { transform: translateY(-5px); opacity: 1; }
         }
 
-        /* Upload indicator - UPDATED WITH TYPING ANIMATION */
+        /* Upload indicator */
         .upload-indicator {
             background-color: white;
             border-radius: 8px;
@@ -447,7 +452,7 @@
             font-size: 24px;
         }
 
-        /* Typing animation progress - REPLACES CIRCULAR PROGRESS */
+        /* Typing animation progress */
         .typing-progress {
             display: flex;
             flex-direction: column;
@@ -598,6 +603,7 @@
             /* Mobile styles for chat interface */
             .chat-header {
                 padding: 12px 16px;
+                height: 65px;
             }
             
             .chat-avatar {
@@ -616,7 +622,8 @@
             
             .messages {
                 padding: 70px 12px 80px;
-                max-height: 100vh;
+                /* Remove max-height constraint */
+                max-height: none;
             }
             
             .message {
@@ -628,6 +635,7 @@
             /* FIXED: Message input container */
             .message-input-container {
                 padding: 10px 12px;
+                height: 75px;
             }
             
             /* FIXED: Message input area */
@@ -733,7 +741,6 @@
             
             .messages {
                 padding: 65px 8px 75px;
-                max-height: 100vh;
             }
             
             .message {
@@ -747,8 +754,13 @@
             }
             
             /* FIXED: Extra small screens */
+            .chat-header {
+                height: 60px;
+            }
+            
             .message-input-container {
                 padding: 8px 10px;
+                height: 70px;
             }
             
             .message-input {
@@ -927,7 +939,7 @@
                 messageInput.value = '';
                 
                 // Scroll to bottom
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                scrollToBottom();
                 
                 // Show typing indicator
                 showTypingIndicator();
@@ -962,8 +974,16 @@
                     messagesContainer.appendChild(incomingMessage);
                     
                     // Scroll to bottom
-                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    scrollToBottom();
                 }, 800 + Math.random() * 500);
+            }
+            
+            // Scroll to bottom function
+            function scrollToBottom() {
+                // Use requestAnimationFrame for smooth scrolling
+                requestAnimationFrame(() => {
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                });
             }
             
             // Show typing indicator
@@ -983,7 +1003,7 @@
                     messagesContainer.appendChild(typingIndicator);
                 }
                 typingIndicator.style.display = 'flex';
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                scrollToBottom();
             }
             
             // Hide typing indicator
@@ -1162,7 +1182,7 @@
                 }
                 
                 messagesContainer.appendChild(uploadIndicator);
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                scrollToBottom();
             }
             
             // Show photo preview
@@ -1182,7 +1202,7 @@
                     `;
                     
                     messagesContainer.appendChild(photoPreview);
-                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    scrollToBottom();
                 };
                 reader.readAsDataURL(file);
             }
@@ -1231,7 +1251,7 @@
                 `;
                 
                 messagesContainer.appendChild(statusMessage);
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                scrollToBottom();
             }
             
             // Show CV generated successfully
@@ -1250,7 +1270,7 @@
                 `;
                 
                 messagesContainer.appendChild(statusMessage);
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                scrollToBottom();
                 
                 // Add download functionality
                 document.getElementById('downloadPdfBtn').addEventListener('click', function() {
@@ -1271,7 +1291,7 @@
                 `;
                 
                 messagesContainer.appendChild(errorMessage);
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                scrollToBottom();
             }
             
             // Send message on button click
@@ -1284,10 +1304,26 @@
                 }
             });
             
+            // Auto-scroll to bottom when new content is added
+            const observer = new MutationObserver(function(mutations) {
+                for (let mutation of mutations) {
+                    if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                        // Small delay to ensure DOM is updated
+                        setTimeout(scrollToBottom, 50);
+                    }
+                }
+            });
+            
+            // Start observing the messages container for changes
+            observer.observe(messagesContainer, { childList: true, subtree: false });
+            
             // Initial scroll to bottom
             setTimeout(() => {
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                scrollToBottom();
             }, 4000); // Wait for splash screen to fade out
+            
+            // Also scroll to bottom when window is resized
+            window.addEventListener('resize', scrollToBottom);
         });
     </script>
 </body>
