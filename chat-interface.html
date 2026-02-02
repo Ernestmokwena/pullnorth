@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PullNorth Chatbot</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <style>
@@ -16,7 +16,6 @@
         body {
             background-color: #f0f2f5;
             height: 100vh;
-            height: 100dvh; /* Use dynamic viewport height for mobile */
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -29,7 +28,6 @@
             left: 0;
             width: 100%;
             height: 100%;
-            height: 100dvh;
             background-color: white;
             display: flex;
             flex-direction: column;
@@ -108,7 +106,7 @@
             }
         }
 
-        /* Chat Area - Using flex layout instead of fixed positioning */
+        /* Chat Area */
         .chat-area {
             flex: 1;
             display: flex;
@@ -126,7 +124,7 @@
             }
         }
 
-        /* Fisheye animation container */
+        /* Fisheye animation container - NO GIF, SIMPLE BACKGROUND */
         .fisheye-background {
             position: absolute;
             top: 0;
@@ -140,6 +138,7 @@
             animation: slowPan 60s infinite alternate ease-in-out;
         }
 
+        /* Animation to make the background appear slower */
         @keyframes slowPan {
             0% {
                 background-position: 0% 0%;
@@ -176,7 +175,7 @@
             z-index: 1;
         }
 
-        /* Chat Header - Using flex instead of fixed */
+        /* Chat Header , FIXED */
         .chat-header {
             display: flex;
             justify-content: space-between;
@@ -184,13 +183,15 @@
             background-color: #f0f2f5;
             padding: 15px 20px;
             border-bottom: 1px solid #e0e0e0;
-            flex-shrink: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
             z-index: 100;
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
             background-color: rgba(240, 242, 245, 0.9);
             height: 70px;
-            position: relative;
         }
 
         .chat-user-info {
@@ -199,7 +200,7 @@
             z-index: 2;
         }
 
-        /* Chat Avatar */
+        /*  Chat Avatar to use PullNorth logo */
         .chat-avatar {
             width: 42px;
             height: 42px;
@@ -232,23 +233,19 @@
             margin-top: 2px;
         }
 
-        /* Messages Container - Use flex: 1 and safe area padding */
-        .messages-container {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-        }
-
+        /* Messages Container - FIXED HEIGHT TO ACCOUNT FOR HEADER/FOOTER */
         .messages {
-            height: 100%;
+            position: fixed;
+            top: 70px; /* Header height */
+            bottom: 80px; /* Footer height */
+            left: 0;
+            right: 0;
             padding: 20px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 10px;
-            position: relative;
             z-index: 1;
-            padding-bottom: 20px; /* Extra padding at bottom */
         }
 
         /* Individual Message */
@@ -291,20 +288,22 @@
             font-size: 14px;
         }
 
-        /* Message Input Container - Using flex instead of fixed */
+        /* Message Input Container ,FIXED FOOTER */
         .message-input-container {
             display: flex;
             align-items: center;
             background-color: #f0f2f5;
             border-top: 1px solid #e0e0e0;
-            padding: 15px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
             z-index: 100;
-            flex-shrink: 0;
+            padding: 15px;
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
             background-color: rgba(240, 242, 245, 0.95);
             height: 80px;
-            position: relative;
         }
 
         .message-input {
@@ -577,6 +576,12 @@
                 height: 65px;
             }
             
+            .messages {
+                top: 65px; /* Mobile header height */
+                bottom: 70px; /* Mobile footer height */
+                padding: 15px;
+            }
+            
             .chat-avatar {
                 width: 36px;
                 height: 36px;
@@ -589,11 +594,6 @@
             
             .chat-status {
                 font-size: 12px;
-            }
-            
-            .messages {
-                padding: 15px;
-                padding-bottom: 25px; /* Extra padding for mobile */
             }
             
             .message {
@@ -685,11 +685,6 @@
                 width: 40px;
                 height: 40px;
             }
-            
-            /* Mobile safe area handling */
-            .message-input-container {
-                padding-bottom: max(10px, env(safe-area-inset-bottom));
-            }
         }
 
         @media (max-width: 480px) {
@@ -703,8 +698,9 @@
             }
             
             .messages {
+                top: 60px; /* Smaller mobile header height */
+                bottom: 65px; /* Smaller mobile footer height */
                 padding: 12px;
-                padding-bottom: 20px;
             }
             
             .message {
@@ -723,7 +719,6 @@
             
             .message-input-container {
                 padding: 8px 10px;
-                padding-bottom: max(8px, env(safe-area-inset-bottom));
                 height: 65px;
             }
             
@@ -773,25 +768,6 @@
                 width: 36px;
                 height: 36px;
             }
-            
-            /* Handle mobile browser UI */
-            body {
-                height: -webkit-fill-available;
-            }
-            
-            .chat-area {
-                min-height: -webkit-fill-available;
-            }
-        }
-
-        /* Handle iOS Safari specific issues */
-        @supports (-webkit-touch-callout: none) {
-            body {
-                height: -webkit-fill-available;
-            }
-            .chat-area {
-                min-height: -webkit-fill-available;
-            }
         }
 
         /*  scrollbar for messages container */
@@ -821,7 +797,7 @@
     </style>
 </head>
 <body>
-    <!-- Welcome Splash Screen -->
+    <!-- Welcome Splash Screen - WHITE BACKGROUND, NO GIF -->
     <div class="welcome-splash" id="welcomeSplash">
         <div class="splash-logo-container">
             <div class="splash-logo">
@@ -832,7 +808,7 @@
 
     <!-- Main Chat Interface -->
     <div class="chat-area">
-        <!-- Fisheye animation background -->
+        <!-- Fisheye animation background - NO GIF -->
         <div class="fisheye-background"></div>
         
         <div class="chat-header">
@@ -847,24 +823,22 @@
             </div>
         </div>
 
-        <!-- Messages Container with proper scroll -->
-        <div class="messages-container">
-            <div class="messages" id="messagesContainer">
-                <!-- Welcome Message -->
-                <div class="message incoming">
-                    Hello! I'm your PullNorth CV Assistant. I can help you generate professional CVs from biography documents. Please upload your biography.docx file using the paperclip icon to get started.
-                    <div class="message-time">10:40</div>
-                </div>
+        <!-- Messages area that respects header and footer -->
+        <div class="messages" id="messagesContainer">
+            <!-- Welcome Message -->
+            <div class="message incoming">
+                Hello! I'm your PullNorth CV Assistant. I can help you generate professional CVs from biography documents. Please upload your biography.docx file using the paperclip icon to get started.
+                <div class="message-time">10:40</div>
+            </div>
 
-                <!-- Upload Instructions -->
-                <div class="message incoming">
-                    <strong>How to generate a CV:</strong><br>
-                    1. Click the Upload document icon for biography.docx<br>
-                    2. Click the Camera icon for a profile photo (optional)<br>
-                    3. I'll extract all information and generate a professional CV<br>
-                    4. You'll receive a downloadable PDF with photo
-                    <div class="message-time">10:40</div>
-                </div>
+            <!-- Upload Instructions -->
+            <div class="message incoming">
+                <strong>How to generate a CV:</strong><br>
+                1. Click the Upload document icon for biography.docx<br>
+                2. Click the Camera icon for a profile photo (optional)<br>
+                3. I'll extract all information and generate a professional CV<br>
+                4. You'll receive a downloadable PDF with photo
+                <div class="message-time">10:40</div>
             </div>
         </div>
 
@@ -962,12 +936,9 @@
                 }, 800 + Math.random() * 500);
             }
             
-            // Scroll to bottom function - optimized for mobile
+            // Scroll to bottom function
             function scrollToBottom() {
                 requestAnimationFrame(() => {
-                    const container = messagesContainer.parentElement;
-                    container.scrollTop = container.scrollHeight;
-                    // Also scroll the messages container itself
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
                 });
             }
@@ -1309,15 +1280,6 @@
             
             // Also scroll to bottom when window is resized
             window.addEventListener('resize', scrollToBottom);
-            
-            // Handle mobile viewport resize
-            let vh = window.innerHeight * 0.01;
-            document.documentElement.style.setProperty('--vh', `${vh}px`);
-            
-            window.addEventListener('resize', () => {
-                let vh = window.innerHeight * 0.01;
-                document.documentElement.style.setProperty('--vh', `${vh}px`);
-            });
         });
     </script>
 </body>
