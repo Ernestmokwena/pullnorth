@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Pull North Premium Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=swap" rel="stylesheet"/>
+    <style type="text/tailwindcss">
+        :root {
+            --primary: #6366f1;
+            --accent: #10b981;
+            --bg-dark: #09090b;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: #f8fafc;
+        }
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+        }
+        .mesh-gradient {
+            background: radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                        radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+                        radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+            background-color: #0c0c0e;
+        }
+        .sidebar-transition {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        #sidebar-toggle:checked ~ #sidebar {
+            transform: translateX(0);
+        }
+        #sidebar-toggle:checked ~ #overlay {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .modal-content {
+            background: #ffffff;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffff;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #111827;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #6b7280;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+        
+        .modal-close:hover {
+            background-color: #f3f4f6;
+        }
+        
+        .modal-body {
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        .modal-iframe {
+            width: 100%;
+            height: calc(90vh - 80px);
+            border: none;
+        }
+        
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 16px;
+            z-index: 10;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f4f6;
+            border-top-color: #6366f1;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="min-h-screen overflow-x-hidden">
+    <input class="hidden" id="sidebar-toggle" type="checkbox"/>
+    <label class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden" for="sidebar-toggle" id="overlay"></label>
+    
+    <aside class="fixed top-0 left-0 bottom-0 w-72 bg-[#0c0c0e] border-r border-white/5 z-[70] sidebar-transition -translate-x-full lg:translate-x-0 p-6 flex flex-col" id="sidebar">
+        <div class="flex items-center gap-3 mb-10">
+            <div class="w-10 h-10 flex items-center justify-center">
+                <span class="material-symbols-outlined text-white font-bold"><img style="border-radius: 50%;" src="../pullnorth.png" alt="Pull North Logo"></span>
+            </div>
+            <span class="text-xl font-bold tracking-tight">Pull North</span>
+        </div>
+        <nav class="flex-1 space-y-2">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl bg-white/5 text-white font-medium" href="/dashboard">
+                <span class="material-symbols-outlined text-[var(--primary)]">home</span>
+                Home
+            </a>
+            <a class="flex items-center gap-4 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 hover:text-white transition-all group" href="#">
+                <span class="material-symbols-outlined group-hover:text-[var(--primary)]">dashboard_customize</span>
+                Templates
+            </a>
+        </nav>
+        <div class="mt-auto">
+            <div class="p-4 rounded-2xl glass-card border-white/10 bg-gradient-to-br from-indigo-500/10 to-transparent">
+                <div class="flex items-center justify-between">
+                    <p class="text-xs font-semibold text-indigo-400 uppercase tracking-widest mb-1">Status</p>
+                    <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/20">Active</span>
+                </div>
+                <div class="mt-2">
+                    <p id="userEmail" class="text-xs text-slate-400 truncate">Loading...</p>
+                </div>
+                <button id="logoutButton" class="mt-4 w-full px-3 py-2 text-xs rounded-lg bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 transition-colors">
+                    Logout
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <main class="lg:ml-72 min-h-screen">
+        <header class="sticky top-0 z-50 px-6 py-4 flex items-center justify-between glass-card border-0 border-b border-white/5">
+            <div class="flex items-center gap-4">
+                <label class="lg:hidden w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 active:scale-95 transition-transform" for="sidebar-toggle">
+                    <span class="material-symbols-outlined">menu</span>
+                </label>
+                <div>
+                    <h2 class="text-lg font-semibold leading-none">Dashboard</h2>
+                    <p class="text-xs text-slate-500 mt-1" id="currentDate">Thursday, 24 Oct</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+            </div>
+        </header>
+        
+        <div class="p-6 space-y-8 max-w-4xl mx-auto">
+            <section class="space-y-1">
+                <h1 id="userGreeting" class="text-3xl font-bold tracking-tight bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">Hi User</h1>
+                <p class="text-slate-400">Your career evolution starts right here.</p>
+            </section>
+            
+            <section class="relative mesh-gradient rounded-[2.5rem] p-8 border border-white/10 overflow-hidden shadow-2xl">
+                <div class="relative z-10 max-w-[60%]">
+                    <span class="inline-block px-3 py-1 rounded-full bg-white/10 text-white text-[10px] font-bold uppercase tracking-widest mb-4 backdrop-blur-md border border-white/5">Premium Access</span>
+                    <h3 class="text-2xl font-bold mb-2">Go Unlimited</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-6">Unlock exclusive AI-optimized templates and priority generation speeds.</p>
+                    <button id="makeCvButton" class="bg-white text-black px-6 py-3 rounded-2xl font-bold text-sm hover:scale-105 active:scale-95 transition-transform">
+                        Make my CV
+                    </button>
+                </div>
+                <div class="absolute right-0 top-1/2 -translate-y-1/2 w-48 h-48 opacity-20 mr-4">
+                    <span class="material-symbols-outlined text-[120px] text-white">auto_awesome</span>
+                </div>
+                <div class="absolute -right-20 -bottom-20 w-64 h-64 bg-[var(--primary)] rounded-full blur-[100px] opacity-40"></div>
+            </section>
+            
+            <section class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-bold">Recent CVs</h3>
+                    <button id="refreshCvsButton" class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-slate-400 hover:text-white transition-colors">
+                        <span class="material-symbols-outlined text-lg">refresh</span>
+                    </button>
+                </div>
+                <div id="cvsContainer" class="space-y-3">
+                    <div class="glass-card p-8 rounded-[1.5rem] text-center">
+                        <span class="material-symbols-outlined text-4xl text-slate-500 mb-4">description</span>
+                        <p class="text-slate-400 mb-2">Loading your CVs...</p>
+                        <div class="loading-spinner mx-auto" style="width: 30px; height: 30px;"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="h-24"></div>
+    </main>
+
+    <button id="mobileMakeCvButton" class="fixed bottom-8 right-6 w-16 h-16 rounded-full bg-[var(--primary)] text-white shadow-2xl shadow-indigo-500/40 flex items-center justify-center z-40 lg:hidden hover:scale-110 active:scale-95 transition-transform">
+        <span class="material-symbols-outlined text-3xl">add</span>
+    </button>
+
+    <div id="cvModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Create Professional CV</h2>
+                <button id="closeModal" class="modal-close">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <p class="text-lg font-medium text-gray-700">Loading CV Form...</p>
+                </div>
+                <iframe id="cvFormIframe" class="modal-iframe" src="about:blank"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const cvModal = document.getElementById('cvModal');
+        const closeModal = document.getElementById('closeModal');
+        const makeCvButton = document.getElementById('makeCvButton');
+        const mobileMakeCvButton = document.getElementById('mobileMakeCvButton');
+        const cvFormIframe = document.getElementById('cvFormIframe');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const userGreeting = document.getElementById('userGreeting');
+        const userEmail = document.getElementById('userEmail');
+        const cvsContainer = document.getElementById('cvsContainer');
+        const refreshCvsButton = document.getElementById('refreshCvsButton');
+        const logoutButton = document.getElementById('logoutButton');
+        const currentDate = document.getElementById('currentDate');
+
+        function updateCurrentDate() {
+            const now = new Date();
+            const options = { weekday: 'long', day: 'numeric', month: 'short' };
+            currentDate.textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        function getToken() {
+            return localStorage.getItem('authToken');
+        }
+
+        // SIMPLE AUTH CHECK - NO REDIRECT LOOPS
+        function checkAuth() {
+            const token = getToken();
+            if (!token) {
+                localStorage.clear();
+                window.location.href = '/auth';
+                return false;
+            }
+            return true;
+        }
+
+        async function loadUserData() {
+            if (!checkAuth()) return;
+
+            const token = getToken();
+            
+            try {
+                const response = await fetch('/auth/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ token })
+                });
+
+                if (!response.ok) {
+                    localStorage.clear();
+                    window.location.href = '/auth';
+                    return;
+                }
+
+                const data = await response.json();
+                
+                const email = data.user.email;
+                const name = data.user.name || email.split('@')[0];
+                userGreeting.innerHTML = `Hi <span class="text-[var(--primary)]">${name}</span>`;
+                userEmail.textContent = email;
+
+                await loadUserCVs(token);
+                
+            } catch (error) {
+                localStorage.clear();
+                window.location.href = '/auth';
+            }
+        }
+
+        async function loadUserCVs(token) {
+            try {
+                const response = await fetch('/user/cvs', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    displayEmptyState('No CVs created yet');
+                    return;
+                }
+
+                const data = await response.json();
+                displayCVs(data.cvs || []);
+            } catch (error) {
+                displayEmptyState('No CVs created yet');
+            }
+        }
+
+        function displayCVs(cvs) {
+            if (!cvs || cvs.length === 0) {
+                displayEmptyState('No CVs created yet');
+                return;
+            }
+
+            const cvItemsHTML = cvs.map(cv => `
+                <div class="glass-card p-5 rounded-[1.5rem] flex items-center justify-between group hover:bg-white/10 transition-colors">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-[var(--primary)]">
+                            <span class="material-symbols-outlined">description</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-sm">${cv.title}</h4>
+                            <p class="text-xs text-slate-500">${cv.date} • ${cv.format}</p>
+                        </div>
+                    </div>
+                    <button class="download-cv-btn w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-[var(--primary)] transition-all" 
+                            data-url="${cv.downloadUrl}" 
+                            data-title="${cv.title}">
+                        <span class="material-symbols-outlined text-lg">download</span>
+                    </button>
+                </div>
+            `).join('');
+
+            cvsContainer.innerHTML = cvItemsHTML;
+
+            document.querySelectorAll('.download-cv-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const url = this.getAttribute('data-url');
+                    const title = this.getAttribute('data-title');
+                    if (url && url !== '#') {
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `${title.replace(/\s+/g, '-').toLowerCase()}.pdf`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    } else {
+                        alert('Download URL not available');
+                    }
+                });
+            });
+        }
+
+        function displayEmptyState(message) {
+            cvsContainer.innerHTML = `
+                <div class="glass-card p-8 rounded-[1.5rem] text-center">
+                    <span class="material-symbols-outlined text-4xl text-slate-500 mb-4">description</span>
+                    <p class="text-slate-400 mb-2">${message}</p>
+                    <p class="text-sm text-slate-500">Create your first CV to get started</p>
+                </div>
+            `;
+        }
+
+        function openCvFormModal() {
+            if (!checkAuth()) return;
+            
+            loadingOverlay.style.display = 'flex';
+            
+            const token = getToken();
+            cvFormIframe.src = `/form?token=${encodeURIComponent(token)}`;
+            
+            cvModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            cvFormIframe.onload = function() {
+                loadingOverlay.style.display = 'none';
+                
+                window.addEventListener('message', function(event) {
+                    if (event.data && event.data.type === 'FORM_SUBMITTED') {
+                        alert('CV created successfully!');
+                        closeCvFormModal();
+                        
+                        setTimeout(async () => {
+                            const token = getToken();
+                            if (token) {
+                                await loadUserCVs(token);
+                            }
+                        }, 1500);
+                    }
+                });
+            };
+        }
+
+        function closeCvFormModal() {
+            cvModal.classList.remove('active');
+            document.body.style.overflow = '';
+            cvFormIframe.src = 'about:blank';
+            window.removeEventListener('message', handleFormMessage);
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = '/auth';
+        }
+
+        makeCvButton.addEventListener('click', openCvFormModal);
+        mobileMakeCvButton.addEventListener('click', openCvFormModal);
+        closeModal.addEventListener('click', closeCvFormModal);
+        refreshCvsButton.addEventListener('click', async () => {
+            const token = getToken();
+            if (token) {
+                await loadUserCVs(token);
+            }
+        });
+        logoutButton.addEventListener('click', logout);
+
+        cvModal.addEventListener('click', function(event) {
+            if (event.target === cvModal) {
+                closeCvFormModal();
+            }
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && cvModal.classList.contains('active')) {
+                closeCvFormModal();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCurrentDate();
+            
+            // Simple check on load
+            if (checkAuth()) {
+                loadUserData();
+            }
+        });
+    </script>
+</body>
+</html>

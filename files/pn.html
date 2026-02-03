@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for CV Enhancement - Professional Yacht Crew CVs</title>
+    <meta name="description" content="Submit your information for professional CV enhancement">
+    <link rel="icon" href="https://via.placeholder.com/32x32/14b8a6/ffffff?text=PN" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            color: #111827;
+            background-color: #ffffff;
+            line-height: 1.5;
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        /* Header and Banner */
+        .header-banner {
+            height: 8rem;
+            width: 100%;
+            background: linear-gradient(to right, #0d9488, #2563eb);
+        }
+
+        @media (min-width: 1024px) {
+            .header-banner {
+                height: 12rem;
+            }
+        }
+
+        .main-container {
+            max-width: 80rem;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        @media (min-width: 640px) {
+            .main-container {
+                padding: 0 1.5rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .main-container {
+                padding: 0 2rem;
+            }
+        }
+
+        /* Logo Section */
+        .logo-section {
+            margin-top: -3rem;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        @media (min-width: 640px) {
+            .logo-section {
+                margin-top: -4rem;
+                display: flex;
+                align-items: flex-end;
+            }
+        }
+
+        .logo-img {
+            width: 6rem;
+            height: 6rem;
+            border-radius: 9999px;
+            border: 4px solid #ffffff;
+            background-color: #ffffff;
+            padding: 0.5rem;
+            object-fit: contain;
+        }
+
+        @media (min-width: 640px) {
+            .logo-img {
+                width: 8rem;
+                height: 8rem;
+            }
+        }
+
+        /* Content Container */
+        .content-container {
+            min-height: 100vh;
+            background-color: #ffffff;
+            padding: 3rem 1rem;
+        }
+
+        @media (min-width: 640px) {
+            .content-container {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+        }
+
+        .content-inner {
+            max-width: 56rem;
+            margin: 0 auto;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            gap: 1rem;
+        }
+
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .breadcrumb-link {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #6b7280;
+            text-decoration: none;
+        }
+
+        .breadcrumb-link:hover {
+            color: #374151;
+        }
+
+        .breadcrumb-separator {
+            width: 1.25rem;
+            height: 1.25rem;
+            flex-shrink: 0;
+            color: #9ca3af;
+        }
+
+        .breadcrumb-current {
+            margin-left: 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #6b7280;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 3rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 768px) {
+            .page-header {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+        }
+
+        .page-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #111827;
+            line-height: 2.25rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        @media (min-width: 640px) {
+            .page-title {
+                font-size: 2.25rem;
+                line-height: 2.5rem;
+                letter-spacing: -0.025em;
+            }
+        }
+
+        .page-description {
+            margin-top: 0.5rem;
+            font-size: 1.125rem;
+            color: #4b5563;
+            max-width: 48rem;
+            line-height: 1.75;
+        }
+
+        /* Contact Button */
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 0.375rem;
+            background-color: #ffffff;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #111827;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            border: 1px solid #d1d5db;
+            border-style: inset;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .contact-btn:hover {
+            background-color: #f9fafb;
+        }
+
+        .contact-icon {
+            margin-right: 0.375rem;
+            margin-left: -0.125rem;
+            width: 1.25rem;
+            height: 1.25rem;
+            color: #9ca3af;
+        }
+
+        /* Form Sections */
+        .form-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-header {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #111827;
+            line-height: 1.75rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .section-description {
+            font-size: 0.875rem;
+            color: #4b5563;
+            line-height: 1.5rem;
+            max-width: 36rem;
+        }
+
+        .form-fields {
+            margin-top: 2.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            align-items: start;
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        @media (min-width: 640px) {
+            .form-row {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 1rem;
+                border-top: 1px solid #e5e7eb;
+                border-bottom: 0;
+            }
+            
+            .form-row:first-of-type {
+                border-top: 0;
+            }
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #111827;
+            line-height: 1.25rem;
+        }
+
+        @media (min-width: 640px) {
+            .form-label {
+                padding-top: 0.375rem;
+            }
+        }
+
+        .input-wrapper {
+            margin-top: 0.5rem;
+        }
+
+        @media (min-width: 640px) {
+            .input-wrapper {
+                margin-top: 0;
+                grid-column: span 2 / span 2;
+            }
+        }
+
+        /* Form Inputs */
+        .form-input {
+            display: block;
+            width: 100%;
+            border-radius: 0.375rem;
+            border: 0;
+            padding: 0.625rem 0.75rem;
+            color: #111827;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            border: 1px solid #d1d5db;
+            border-style: inset;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+        }
+
+        .form-input:focus {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            border-color: #0d9488;
+            box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.2);
+        }
+
+        .form-input::placeholder {
+            color: #9ca3af;
+        }
+
+        .form-textarea {
+            display: block;
+            width: 100%;
+            border-radius: 0.375rem;
+            border: 0;
+            padding: 0.625rem 0.75rem;
+            color: #111827;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            border: 1px solid #d1d5db;
+            border-style: inset;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            resize: vertical;
+            min-height: 5rem;
+        }
+
+        .form-textarea:focus {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            border-color: #0d9488;
+            box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.2);
+        }
+
+        .form-textarea::placeholder {
+            color: #9ca3af;
+        }
+
+        /* Phone Input */
+        .phone-input {
+            display: flex;
+            border-radius: 0.375rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            border: 1px solid #d1d5db;
+            border-style: inset;
+            transition: box-shadow 0.2s;
+        }
+
+        .phone-input:focus-within {
+            border-color: #0d9488;
+            box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.2);
+        }
+
+        .phone-prefix {
+            display: flex;
+            align-items: center;
+            padding-left: 0.75rem;
+            color: #6b7280;
+            font-size: 0.875rem;
+            user-select: none;
+            border-top-left-radius: 0.375rem;
+            border-bottom-left-radius: 0.375rem;
+        }
+
+        .phone-field {
+            display: block;
+            flex: 1 1 0%;
+            border: 0;
+            background-color: transparent;
+            padding: 0.625rem 0.75rem 0.625rem 0.25rem;
+            color: #111827;
+            outline: none;
+            border-top-right-radius: 0.375rem;
+            border-bottom-right-radius: 0.375rem;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+        }
+
+        .phone-field::placeholder {
+            color: #9ca3af;
+        }
+
+        /* Button */
+        .btn {
+            border-radius: 0.375rem;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: white;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            background-color: #14b8a6;
+        }
+
+        .btn:hover {
+            background-color: #0d9488;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 0.375rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: white;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.2s, background-color 0.2s;
+            background-color: #14b8a6;
+        }
+
+        .btn-primary:hover {
+            background-color: #0d9488;
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Field Groups */
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .add-btn {
+            align-self: flex-start;
+        }
+
+        /* Experience/Education/Reference Items */
+        .item-container {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            position: relative;
+        }
+
+        .item-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        @media (min-width: 768px) {
+            .item-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .item-field {
+            display: block;
+            width: 100%;
+            border-radius: 0.375rem;
+            border: 0;
+            padding: 0.625rem 0.75rem;
+            color: #111827;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            border: 1px solid #d1d5db;
+            border-style: inset;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+        }
+
+        .item-field:focus {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            border-color: #0d9488;
+            box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.2);
+        }
+
+        .item-field::placeholder {
+            color: #9ca3af;
+        }
+
+        .item-label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #4b5563;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Radio Group */
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+        }
+
+        .radio-input {
+            height: 1rem;
+            width: 1rem;
+            border-color: #d1d5db;
+            color: #0d9488;
+            cursor: pointer;
+        }
+
+        .radio-input:focus {
+            outline: 2px solid #0d9488;
+            outline-offset: 0;
+        }
+
+        .radio-label {
+            margin-left: 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #111827;
+            line-height: 1.25rem;
+            cursor: pointer;
+        }
+
+        /* Profile Photo */
+        .photo-container {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .photo-placeholder {
+            width: 6rem;
+            height: 6rem;
+            border-radius: 9999px;
+            background-color: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #d1d5db;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-preview {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .photo-icon {
+            width: 3rem;
+            height: 3rem;
+            color: #d1d5db;
+        }
+
+        .photo-upload {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .photo-label {
+            border-radius: 0.375rem;
+            background-color: #ffffff;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #111827;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            border: 1px solid #d1d5db;
+            border-style: inset;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            text-align: center;
+        }
+
+        .photo-label:hover {
+            background-color: #f9fafb;
+        }
+
+        .photo-note {
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: #4b5563;
+            line-height: 1.25rem;
+        }
+
+        /* Character Counter */
+        .char-counter {
+            margin-top: 0.75rem;
+            font-size: 0.875rem;
+            color: #4b5563;
+            line-height: 1.25rem;
+        }
+
+        /* Form Footer */
+        .form-footer {
+            margin-top: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .discard-btn {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #111827;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .discard-btn:hover {
+            color: #374151;
+        }
+
+        .progress-text {
+            font-size: 0.875rem;
+            color: #4b5563;
+        }
+
+        .progress-value {
+            font-weight: 600;
+            color: #0d9488;
+        }
+
+        .footer-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.5rem;
+        }
+
+        .submit-note {
+            font-size: 0.75rem;
+            color: #6b7280;
+            text-align: right;
+        }
+
+        /* Divider */
+        .divider {
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 2rem;
+        }
+
+        /* Remove Item Button */
+        .remove-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 0.25rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: background-color 0.2s;
+        }
+
+        .remove-btn:hover {
+            background: #dc2626;
+        }
+
+        /* Success Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-icon {
+            font-size: 4rem;
+            color: #0d9488;
+            margin-bottom: 20px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            background: #0d9488;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .modal-btn:hover {
+            background: #0d7c6f;
+        }
+
+        .modal-btn-secondary {
+            background: #4b5563;
+        }
+
+        .modal-btn-secondary:hover {
+            background: #374151;
+        }
+
+        /* Required field indicator */
+        .required::after {
+            content: " *";
+            color: #ef4444;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            .breadcrumb {
+                display: none;
+            }
+            
+            .mobile-back {
+                display: flex;
+                align-items: center;
+                font-size: 0.875rem;
+                font-weight: 500;
+                color: #6b7280;
+                text-decoration: none;
+                margin-bottom: 2rem;
+            }
+            
+            .mobile-back:hover {
+                color: #374151;
+            }
+            
+            .back-icon {
+                margin-right: 0.25rem;
+                margin-left: -0.25rem;
+                width: 1.25rem;
+                height: 1.25rem;
+                flex-shrink: 0;
+                color: #9ca3af;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+        }
+
+        @media (min-width: 640px) {
+            .mobile-back {
+                display: none;
+            }
+        }
+
+        /* Loading State */
+        .loading-spinner {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Dashboard Integration Styles */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            background: #ffffff;
+        }
+
+        .dashboard-back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            color: #374151;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .dashboard-back-btn:hover {
+            background: #e5e7eb;
+        }
+    </style>
+</head>
+<body>
+
+    
+    <div class="header-banner"></div>
+    
+    <div class="main-container">
+        <div class="logo-section">
+            <div>
+                <img src="../pullnorth.png" alt="Pull North Logo" class="logo-img">
+            </div>
+        </div>
+    </div>
+    
+    <div class="content-container">
+        <div class="content-inner">
+            <!-- Mobile back button -->
+            <a href="javascript:void(0);" onclick="closeAndReturn()" class="mobile-back">
+                <svg class="back-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd"></path>
+                </svg>
+                Back
+            </a>
+            
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <ol class="breadcrumb-list">
+                    <li class="breadcrumb-item">
+                        <a href="javascript:void(0);" onclick="closeAndReturn()" class="breadcrumb-link">Home</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <svg class="breadcrumb-separator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="breadcrumb-current">CV Application</span>
+                    </li>
+                </ol>
+            </nav>
+            
+            <!-- Page Header -->
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Apply for Professional CV Enhancement</h1>
+                    <p class="page-description">Submit your information and we'll create a professional, industry-standard CV for your yacht crew career. All information will be reviewed and enhanced before publication.</p>
+                </div>
+                <div class="mt-4 md:mt-0 md:ml-4">
+                    <a href="mailto:team@pullnorth.com" class="contact-btn">
+                        <svg class="contact-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path d="M3 4a2 2 0 0 0-2 2v1.161l8.441 4.221a1.25 1.25 0 0 0 1.118 0L19 7.162V6a2 2 0 0 0-2-2H3Z"></path>
+                            <path d="m19 8.839-7.77 3.885a2.75 2.75 0 0 1-2.46 0L1 8.839V14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.839Z"></path>
+                        </svg>
+                        Contact
+                    </a>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <!-- Main Form -->
+            <form id="cvForm" onsubmit="return handleSubmit(event)">
+                <div class="form-section">
+                    <h2 class="section-header">Personal Information</h2>
+                    <p class="section-description">Basic contact details and personal information for your CV.</p>
+                    
+                    <div class="form-fields">
+                        <!-- First Name -->
+                        <div class="form-row">
+                            <label for="firstName" class="form-label required">First name</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="firstName" name="firstName" class="form-input" required>
+                            </div>
+                        </div>
+                        
+                        <!-- Last Name -->
+                        <div class="form-row">
+                            <label for="lastName" class="form-label required">Last name</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="lastName" name="lastName" class="form-input" required>
+                            </div>
+                        </div>
+                        
+                        <!-- Email -->
+                        <div class="form-row">
+                            <label for="email" class="form-label required">Email address</label>
+                            <div class="input-wrapper">
+                                <input type="email" id="email" name="email" class="form-input" required>
+                            </div>
+                        </div>
+                        
+                        <!-- Phone -->
+                        <div class="form-row">
+                            <label for="phone" class="form-label required">Phone</label>
+                            <div class="input-wrapper">
+                                <div class="phone-input">
+                                    <span class="phone-prefix">+</span>
+                                    <input type="tel" id="phone" name="phone" placeholder="27 82 123 4567" class="phone-field" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Location -->
+                        <div class="form-row">
+                            <label for="location" class="form-label required">Current location</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="location" name="location" placeholder="City, Country" class="form-input" required>
+                            </div>
+                        </div>
+                        
+                        <!-- Nationality -->
+                        <div class="form-row">
+                            <label for="nationality" class="form-label required">Nationality</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="nationality" name="nationality" class="form-input" required>
+                            </div>
+                        </div>
+                        
+                        <!-- Languages -->
+                        <div class="form-row">
+                            <label class="form-label required">Languages</label>
+                            <div class="input-wrapper">
+                                <div class="field-group">
+                                    <div>
+                                        <input type="text" id="languages" name="languages" placeholder="e.g., English (Native), Spanish (Fluent)" class="form-input" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Visa Status -->
+                        <div class="form-row">
+                            <label class="form-label required">Visa Status</label>
+                            <div class="input-wrapper">
+                                <div class="field-group">
+                                    <div>
+                                        <input type="text" id="visaStatus" name="visaStatus" placeholder="e.g., EU Passport, US Green Card, B1/B2 Visa" class="form-input" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Health Status -->
+                        <div class="form-row">
+                            <label for="health" class="form-label required">Health Status</label>
+                            <div class="input-wrapper">
+                                <textarea id="health" name="health" rows="3" placeholder="e.g., Excellent health, ENG1 Medical Certificate valid until 2025, No medical restrictions" class="form-textarea" required></textarea>
+                            </div>
+                        </div>
+                        
+                        <!-- Profile Photo -->
+                        <div class="form-row">
+                            <label for="profilePicture" class="form-label">Profile Photo</label>
+                            <div class="input-wrapper">
+                                <div class="photo-container">
+                                    <div class="photo-placeholder">
+                                        <svg class="photo-icon" fill="currentColor" viewBox="0 0 24 24">
+                                            <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        <img id="photoPreview" class="photo-preview" alt="Profile photo preview">
+                                    </div>
+                                    <div class="photo-upload">
+                                        <label for="profilePicture" class="photo-label">Upload Photo</label>
+                                        <input id="profilePicture" name="profilePicture" type="file" accept="image/*" class="sr-only" onchange="handlePhotoUpload(event)">
+                                    </div>
+                                </div>
+                                <p class="photo-note">JPG, PNG or WebP. Maximum file size 5MB.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Professional Information Section -->
+                <div class="form-section">
+                    <h2 class="section-header">Professional Information</h2>
+                    <p class="section-description">Your work experience and career details in the maritime industry.</p>
+                    
+                    <div class="form-fields">
+                        <!-- Target Role -->
+                        <div class="form-row">
+                            <label for="targetRole" class="form-label required">Target Role</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="targetRole" name="targetRole" required placeholder="e.g., Deckhand, Stewardess, Chef" class="form-input">
+                            </div>
+                        </div>
+                        
+                        <!-- Work Experience -->
+                        <div class="form-row">
+                            <label class="form-label required">Work Experience</label>
+                            <div class="input-wrapper">
+                                <div class="field-group" id="experienceContainer">
+                                    <div class="item-container">
+                                        <button type="button" class="remove-btn" onclick="removeItem(this)">×</button>
+                                        <div class="item-grid">
+                                            <input type="text" name="experience[0][role]" placeholder="Role/Position *" class="item-field" required>
+                                            <input type="text" name="experience[0][company]" placeholder="Vessel/Company Name *" class="item-field" required>
+                                            <input type="date" name="experience[0][startDate]" class="item-field" style="color-scheme: light;" required>
+                                            <input type="date" name="experience[0][endDate]" class="item-field" style="color-scheme: light;" required>
+                                            <input type="text" name="experience[0][location]" placeholder="Location *" class="item-field" required>
+                                            <input type="text" name="experience[0][vessel]" placeholder="Vessel Details (e.g., 45m Motor Yacht) *" class="item-field" required>
+                                        </div>
+                                        <textarea name="experience[0][responsibilities]" placeholder="Key responsibilities and achievements (one per line) *" rows="3" class="form-textarea" required></textarea>
+                                    </div>
+                                    <button type="button" class="btn add-btn" onclick="addExperience()">
+                                        <i class="bi bi-plus-circle"></i> Add Experience
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Skills Section -->
+                <div class="form-section">
+                    <h2 class="section-header">Skills</h2>
+                    <p class="section-description">List your professional skills relevant to the maritime industry.</p>
+                    
+                    <div class="form-fields">
+                        <div class="form-row">
+                            <label for="skills" class="form-label required">Skills</label>
+                            <div class="input-wrapper">
+                                <textarea id="skills" name="skills" rows="3" placeholder="e.g., Communication, Organization, Washdowns, Deck Maintenance, Time Management, Problem Solving, Guest Services" class="form-textarea" required></textarea>
+                                <p class="char-counter">Separate each skill with a comma. Example: Communication, Leadership, Safety Protocols</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Certifications Section -->
+                <div class="form-section">
+                    <h2 class="section-header">Certifications</h2>
+                    <p class="section-description">Professional certifications and maritime qualifications.</p>
+                    
+                    <div class="form-fields">
+                        <div class="form-row">
+                            <label class="form-label required">Certifications</label>
+                            <div class="input-wrapper">
+                                <div class="field-group" id="certificationsContainer">
+                                    <div class="item-container">
+                                        <button type="button" class="remove-btn" onclick="removeItem(this)">×</button>
+                                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                            <div>
+                                                <label class="item-label">Certification Name *</label>
+                                                <input type="text" name="certifications[0][name]" placeholder="e.g., STCW Basic Safety Training" class="item-field" required>
+                                            </div>
+                                            <div>
+                                                <label class="item-label">Issuing Authority *</label>
+                                                <input type="text" name="certifications[0][issuer]" placeholder="e.g., MCA Approved Training Center" class="item-field" required>
+                                            </div>
+                                            <div>
+                                                <label class="item-label">Date/Validity *</label>
+                                                <input type="text" name="certifications[0][validity]" placeholder="e.g., 2024 or Valid until 2025" class="item-field" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn add-btn" onclick="addCertification()">
+                                        <i class="bi bi-plus-circle"></i> Add Certification
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Education Section -->
+                <div class="form-section">
+                    <h2 class="section-header">Education</h2>
+                    <p class="section-description">Educational background and academic qualifications.</p>
+                    
+                    <div class="form-fields">
+                        <!-- Highest Qualification -->
+                        <div class="form-row">
+                            <label class="form-label required">Highest Qualification</label>
+                            <div class="input-wrapper">
+                                <div class="radio-group">
+                                    <div class="radio-option">
+                                        <input type="radio" id="qualification-high-school-certificate" name="highestQualification" value="High School Certificate" class="radio-input" required>
+                                        <label for="qualification-high-school-certificate" class="radio-label">High School Certificate</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" id="qualification-higher-certificate" name="highestQualification" value="Higher Certificate" class="radio-input">
+                                        <label for="qualification-higher-certificate" class="radio-label">Higher Certificate</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" id="qualification-diploma" name="highestQualification" value="Diploma" class="radio-input">
+                                        <label for="qualification-diploma" class="radio-label">Diploma</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" id="qualification-degree" name="highestQualification" value="Degree" class="radio-input">
+                                        <label for="qualification-degree" class="radio-label">Degree</label>
+                                    </div>
+                                </div>
+                                <p class="char-counter">This will appear as a badge next to Education on your CV</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Educational Details -->
+                        <div class="form-row">
+                            <label class="form-label required">Educational Details</label>
+                            <div class="input-wrapper">
+                                <div class="field-group" id="educationContainer">
+                                    <div class="item-container">
+                                        <button type="button" class="remove-btn" onclick="removeItem(this)">×</button>
+                                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                            <div>
+                                                <label class="item-label">Qualification *</label>
+                                                <input type="text" name="education[0][qualification]" placeholder="e.g., High School Certificate, Bachelor's Degree" class="item-field" required>
+                                            </div>
+                                            <div>
+                                                <label class="item-label">Institution *</label>
+                                                <input type="text" name="education[0][institution]" placeholder="e.g., University Name, School Name" class="item-field" required>
+                                            </div>
+                                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                                                <div>
+                                                    <label class="item-label">Start Date *</label>
+                                                    <input type="date" name="education[0][startDate]" class="item-field" style="color-scheme: light;" required>
+                                                </div>
+                                                <div>
+                                                    <label class="item-label">End Date *</label>
+                                                    <input type="date" name="education[0][endDate]" class="item-field" style="color-scheme: light;" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn add-btn" onclick="addEducation()">
+                                        <i class="bi bi-plus-circle"></i> Add Education
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Profile Summary Section -->
+                <div class="form-section">
+                    <h2 class="section-header">Profile Summary</h2>
+                    <p class="section-description">A brief professional summary highlighting your experience and career goals.</p>
+                    
+                    <div class="form-fields">
+                        <div class="form-row">
+                            <label for="profile" class="form-label required">Profile Summary</label>
+                            <div class="input-wrapper">
+                                <textarea id="profile" name="profile" rows="4" maxlength="800" placeholder="Write a brief professional summary about yourself, your experience, and career goals..." class="form-textarea" oninput="updateCharCount(this)" required></textarea>
+                                <p class="char-counter" id="profileCharCount">0/800 characters</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Hobbies & Interests Section -->
+                <div class="form-section">
+                    <h2 class="section-header">Hobbies & Interests</h2>
+                    <p class="section-description">Personal interests and activities that showcase your personality.</p>
+                    
+                    <div class="form-fields">
+                        <div class="form-row">
+                            <label for="hobbiesAndInterests" class="form-label required">Hobbies & Interests</label>
+                            <div class="input-wrapper">
+                                <textarea id="hobbiesAndInterests" name="hobbiesAndInterests" rows="2" placeholder="e.g., Running & Swimming, Ocean & Adventure Sports, Photography, Cultural Exchange, Water Sports" class="form-textarea" required></textarea>
+                                <p class="char-counter">Separate each interest with a comma. Example: Photography, Sailing, Fitness</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- References Section -->
+                <div class="form-section">
+                    <h2 class="section-header">References</h2>
+                    <p class="section-description">Professional references who can speak to your work experience and character.</p>
+                    
+                    <div class="form-fields">
+                        <div class="form-row">
+                            <label class="form-label required">References</label>
+                            <div class="input-wrapper">
+                                <div class="field-group" id="referencesContainer">
+                                    <div class="item-container">
+                                        <button type="button" class="remove-btn" onclick="removeItem(this)">×</button>
+                                        <div class="item-grid">
+                                            <div>
+                                                <label class="item-label">Full Name *</label>
+                                                <input type="text" name="references[0][name]" placeholder="e.g., Captain John Smith" class="item-field" required>
+                                            </div>
+                                            <div>
+                                                <label class="item-label">Role/Relationship *</label>
+                                                <input type="text" name="references[0][role]" placeholder="e.g., Captain, M/Y Princess Skye" class="item-field" required>
+                                            </div>
+                                            <div>
+                                                <label class="item-label">Contact *</label>
+                                                <input type="tel" name="references[0][contact]" placeholder="e.g., +27 82 123 4567 or email@example.com" class="item-field" required>
+                                            </div>
+                                            <div>
+                                                <label class="item-label">Website (Optional)</label>
+                                                <input type="url" name="references[0][website]" placeholder="e.g., https://linkedin.com/in/username" class="item-field">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn add-btn" onclick="addReference()">
+                                        <i class="bi bi-plus-circle"></i> Add Reference
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Form Footer -->
+                <div class="form-footer">
+                    <div class="footer-left">
+                        <button type="button" class="discard-btn" onclick="discardForm()">
+                            <i class="bi bi-trash"></i> Discard
+                        </button>
+                    </div>
+                    <div class="footer-right">
+                        <button type="submit" class="btn-primary" id="submitBtn">
+                            <i class="bi bi-send"></i> Submit Application
+                        </button>
+                        <p class="submit-note" id="requiredFieldsNote">All fields marked with * are required</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            const authToken = localStorage.getItem('authToken');
+            const userData = localStorage.getItem('user');
+            
+            if (!authToken) {
+                // Show warning message
+                const warningDiv = document.createElement('div');
+                warningDiv.style.cssText = `
+                    background: #fef3c7;
+                    border: 1px solid #f59e0b;
+                    border-radius: 0.375rem;
+                    padding: 1rem;
+                    margin-bottom: 2rem;
+                    text-align: center;
+                `;
+                warningDiv.innerHTML = `
+                    <p style="color: #92400e; margin-bottom: 0.5rem;">
+                        <strong><i class="bi bi-exclamation-triangle"></i> Login Required</strong>
+                    </p>
+                    <p style="color: #92400e; margin-bottom: 1rem; font-size: 0.875rem;">
+                        You need to be logged in to submit a CV. 
+                    </p>
+                    <button onclick="window.location.href='/auth'" style="
+                        background: #0d9488;
+                        color: white;
+                        border: none;
+                        border-radius: 0.375rem;
+                        padding: 0.5rem 1rem;
+                        font-size: 0.875rem;
+                        font-weight: 600;
+                        cursor: pointer;
+                    ">
+                        <i class="bi bi-box-arrow-in-right"></i> Go to Login
+                    </button>
+                `;
+                
+                // Insert at the beginning of content-inner
+                const contentInner = document.querySelector('.content-inner');
+                if (contentInner) {
+                    contentInner.insertBefore(warningDiv, contentInner.firstChild);
+                }
+                
+                // Disable submit button
+                const submitBtn = document.getElementById('submitBtn');
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="bi bi-lock"></i> Login Required';
+                    submitBtn.style.backgroundColor = '#6b7280';
+                }
+            } else if (userData) {
+                // Pre-fill email if user is logged in
+                try {
+                    const user = JSON.parse(userData);
+                    const emailField = document.getElementById('email');
+                    if (emailField && !emailField.value) {
+                        emailField.value = user.email || '';
+                    }
+                } catch (e) {
+                    // Silent fail
+                }
+            }
+            
+            // Set max date for date inputs to today
+            const today = new Date().toISOString().split('T')[0];
+            document.querySelectorAll('input[type="date"]').forEach(input => {
+                input.max = today;
+            });
+            
+            // Set min date for education end date based on start date
+            document.querySelectorAll('input[name$="[startDate]"]').forEach(startInput => {
+                startInput.addEventListener('change', function() {
+                    const endInput = this.closest('.item-container').querySelector('input[name$="[endDate]"]');
+                    if (endInput) {
+                        endInput.min = this.value;
+                    }
+                });
+            });
+        });
+
+        // Form validation function
+        function validateForm() {
+            const requiredFields = document.querySelectorAll('#cvForm input[required], #cvForm textarea[required]');
+            let isValid = true;
+            let firstInvalidField = null;
+            let missingFields = [];
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    if (!firstInvalidField) firstInvalidField = field;
+                    
+                    // Add to missing fields list
+                    const fieldName = field.name || field.id || field.placeholder || 'Unknown field';
+                    missingFields.push(fieldName);
+                    
+                    // Highlight invalid field
+                    field.style.borderColor = '#ef4444';
+                    field.addEventListener('input', function() {
+                        this.style.borderColor = '#d1d5db';
+                    }, { once: true });
+                }
+            });
+            
+            // Special check for radio buttons
+            const radioGroups = document.querySelectorAll('input[type="radio"][required]');
+            radioGroups.forEach(radio => {
+                const groupName = radio.name;
+                const radioGroup = document.querySelectorAll(`input[name="${groupName}"]`);
+                let anyChecked = false;
+                radioGroup.forEach(r => {
+                    if (r.checked) anyChecked = true;
+                });
+                
+                if (!anyChecked) {
+                    isValid = false;
+                    if (!firstInvalidField) firstInvalidField = radioGroup[0];
+                    missingFields.push(groupName);
+                    
+                    // Highlight radio group labels
+                    radioGroup.forEach(r => {
+                        const label = document.querySelector(`label[for="${r.id}"]`);
+                        if (label) {
+                            label.style.color = '#ef4444';
+                            r.addEventListener('change', function() {
+                                label.style.color = '#111827';
+                            }, { once: true });
+                        }
+                    });
+                }
+            });
+            
+            return { isValid, firstInvalidField, missingFields };
+        }
+        
+        // Character counter for profile summary
+        function updateCharCount(textarea) {
+            const charCount = textarea.value.length;
+            document.getElementById('profileCharCount').textContent = charCount + '/800 characters';
+        }
+        
+        // Handle photo upload
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('photoPreview');
+            const icon = document.querySelector('.photo-icon');
+            
+            if (file) {
+                // Check file size (5MB max)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File size must be less than 5MB');
+                    event.target.value = '';
+                    return;
+                }
+                
+                // Check file type
+                const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+                if (!validTypes.includes(file.type)) {
+                    alert('Please upload a JPG, PNG, or WebP image');
+                    event.target.value = '';
+                    return;
+                }
+                
+                // Create preview
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    icon.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+                
+                console.log('Photo uploaded:', file.name);
+            } else {
+                // Reset preview
+                preview.src = '';
+                preview.style.display = 'none';
+                icon.style.display = 'block';
+            }
+        }
+        
+        // Intelligent form submission - FIXED VERSION
+        async function handleSubmit(event) {
+            event.preventDefault();
+            
+            // Check authentication first
+            const authToken = localStorage.getItem('authToken');
+            
+            if (!authToken) {
+                alert('Please login first to submit your CV');
+                window.location.href = '/auth';
+                return false;
+            }
+            
+            // Validate all required fields
+            const { isValid, firstInvalidField, missingFields } = validateForm();
+            
+            if (!isValid) {
+                alert(`Please fill in all required fields.\n\nMissing fields: ${missingFields.slice(0, 10).join(', ')}${missingFields.length > 10 ? '...' : ''}`);
+                if (firstInvalidField) {
+                    firstInvalidField.focus();
+                    if (firstInvalidField.type === 'radio') {
+                        firstInvalidField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+                return false;
+            }
+            
+            // Create FormData for submission
+            const submissionData = new FormData();
+            
+            // Get profile picture
+            const profilePicture = document.getElementById('profilePicture').files[0];
+            if (profilePicture) {
+                submissionData.append('profilePicture', profilePicture);
+            }
+            
+            // Collect form data as individual fields (not JSON)
+            const simpleFields = ['firstName', 'lastName', 'email', 'phone', 'location', 'nationality', 
+                                  'languages', 'visaStatus', 'health', 'targetRole', 'skills', 
+                                  'profile', 'hobbiesAndInterests'];
+            
+            simpleFields.forEach(fieldName => {
+                const field = document.getElementById(fieldName);
+                if (field) {
+                    submissionData.append(fieldName, field.value.trim());
+                }
+            });
+            
+            // Get highest qualification (radio button)
+            const highestQualificationInput = document.querySelector('input[name="highestQualification"]:checked');
+            if (highestQualificationInput) {
+                submissionData.append('highestQualification', highestQualificationInput.value);
+            }
+            
+            try {
+                // Show loading state
+                const submitBtn = document.getElementById('submitBtn');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="bi bi-arrow-repeat loading-spinner"></i> Processing...';
+                submitBtn.disabled = true;
+                
+                // Submit to server WITH authentication header
+                const response = await fetch('/submit-cv-application', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: submissionData  // FormData automatically sets correct Content-Type
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Send message to parent window (dashboard)
+                    if (window.parent !== window) {
+                        window.parent.postMessage({ 
+                            type: 'FORM_SUBMITTED',
+                            success: true,
+                            applicationId: result.cvId 
+                        }, '*');
+                    }
+                    
+                    showSuccessModal(result);
+                } else {
+                    throw new Error(result.error || 'Submission failed');
+                }
+                
+            } catch (error) {
+                alert(`Submission failed: ${error.message}`);
+                
+                // Reset button
+                const submitBtn = document.getElementById('submitBtn');
+                submitBtn.innerHTML = '<i class="bi bi-send"></i> Submit Application';
+                submitBtn.disabled = false;
+            }
+            
+            return false;
+        }
+        
+        // Show success modal
+        function showSuccessModal(result) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-icon">
+                        <i class="bi bi-check-circle"></i>
+                    </div>
+                    <h2 style="color: #2d3748; margin-bottom: 20px;">Application Submitted Successfully!</h2>
+                    <div style="color: #4b5563; line-height: 1.6; text-align: left; margin-bottom: 30px;">
+                        <p><strong><i class="bi bi-check"></i> Your information has been processed</strong></p>
+                        <p>A professional CV is being generated using AI intelligence.</p>
+                        <p><strong><i class="bi bi-list-check"></i> What happens next:</strong></p>
+                        <ol style="margin-left: 20px; margin-top: 10px;">
+                            <li>Biography created and stored in cloud</li>
+                            <li>AI-enhanced CV generation started</li>
+                            <li>PDF will be available in 30-60 seconds</li>
+                            <li>You can check the dashboard for progress</li>
+                        </ol>
+                        <p style="margin-top: 20px;"><strong><i class="bi bi-folder"></i> View your files:</strong></p>
+                        <p><a href="/dashboard" style="color: #0d9488; text-decoration: underline;">/dashboard</a></p>
+                        <p style="margin-top: 20px; font-size: 0.9rem; color: #6b7280;">
+                            Thank you for using Pull North CV Service!
+                        </p>
+                    </div>
+                    <div class="modal-actions">
+                        <button onclick="location.reload()" class="modal-btn">
+                            <i class="bi bi-plus-circle"></i> Submit Another
+                        </button>
+                        <button onclick="closeAndReturn()" class="modal-btn modal-btn-secondary">
+                            <i class="bi bi-bar-chart"></i> Return to Dashboard
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Remove modal when clicking outside
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
+        }
+        
+        // Discard form
+        function discardForm() {
+            if (confirm('Are you sure you want to discard all changes?')) {
+                document.getElementById('cvForm').reset();
+                
+                // Reset photo preview
+                const preview = document.getElementById('photoPreview');
+                const icon = document.querySelector('.photo-icon');
+                preview.src = '';
+                preview.style.display = 'none';
+                icon.style.display = 'block';
+                
+                // Reset item containers (keep first item)
+                ['experience', 'certifications', 'education', 'references'].forEach(type => {
+                    const container = document.getElementById(`${type}Container`);
+                    const items = container.querySelectorAll('.item-container');
+                    items.forEach((item, index) => {
+                        if (index > 0) {
+                            item.remove();
+                        } else {
+                            // Reset first item
+                            item.querySelectorAll('input, textarea').forEach(input => {
+                                input.value = '';
+                            });
+                        }
+                    });
+                });
+            }
+        }
+        
+        // Add new experience item
+        function addExperience() {
+            const container = document.getElementById('experienceContainer');
+            const index = container.querySelectorAll('.item-container').length;
+            
+            const item = document.createElement('div');
+            item.className = 'item-container';
+            item.innerHTML = `
+                <button type="button" class="remove-btn" onclick="removeItem(this)">×</button>
+                <div class="item-grid">
+                    <input type="text" name="experience[${index}][role]" placeholder="Role/Position *" class="item-field" required>
+                    <input type="text" name="experience[${index}][company]" placeholder="Vessel/Company Name *" class="item-field" required>
+                    <input type="date" name="experience[${index}][startDate]" class="item-field" style="color-scheme: light;" required>
+                    <input type="date" name="experience[${index}][endDate]" class="item-field" style="color-scheme: light;" required>
+                    <input type="text" name="experience[${index}][location]" placeholder="Location *" class="item-field" required>
+                    <input type="text" name="experience[${index}][vessel]" placeholder="Vessel Details (e.g., 45m Motor Yacht) *" class="item-field" required>
+                </div>
+                <textarea name="experience[${index}][responsibilities]" placeholder="Key responsibilities and achievements (one per line) *" rows="3" class="form-textarea" required></textarea>
+            `;
+            
+            container.insertBefore(item, container.querySelector('.add-btn'));
+        }
+        
+        // Add new certification item
+        function addCertification() {
+            const container = document.getElementById('certificationsContainer');
+            const index = container.querySelectorAll('.item-container').length;
+            
+            const item = document.createElement('div');
+            item.className = 'item-container';
+            item.innerHTML = `
+                <button type="button" class="remove-btn" onclick="removeItem(this)">×</button>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <div>
+                        <label class="item-label">Certification Name *</label>
+                        <input type="text" name="certifications[${index}][name]" placeholder="e.g., STCW Basic Safety Training" class="item-field" required>
+                    </div>
+                    <div>
+                        <label class="item-label">Issuing Authority *</label>
+                        <input type="text" name="certifications[${index}][issuer]" placeholder="e.g., MCA Approved Training Center" class="item-field" required>
+                    </div>
+                    <div>
+                        <label class="item-label">Date/Validity *</label>
+                        <input type="text" name="certifications[${index}][validity]" placeholder="e.g., 2024 or Valid until 2025" class="item-field" required>
+                    </div>
+                </div>
+            `;
+            
+            container.insertBefore(item, container.querySelector('.add-btn'));
+        }
+        
+        // Add new education item
+        function addEducation() {
+            const container = document.getElementById('educationContainer');
+            const index = container.querySelectorAll('.item-container').length;
+            
+            const item = document.createElement('div');
+            item.className = 'item-container';
+            item.innerHTML = `
+                <button type="button" class="remove-btn" onclick="removeItem(this)">×</button>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <div>
+                        <label class="item-label">Qualification *</label>
+                        <input type="text" name="education[${index}][qualification]" placeholder="e.g., High School Certificate, Bachelor's Degree" class="item-field" required>
+                    </div>
+                    <div>
+                        <label class="item-label">Institution *</label>
+                        <input type="text" name="education[${index}][institution]" placeholder="e.g., University Name, School Name" class="item-field" required>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                        <div>
+                            <label class="item-label">Start Date *</label>
+                            <input type="date" name="education[${index}][startDate]" class="item-field" style="color-scheme: light;" required>
+                        </div>
+                        <div>
+                            <label class="item-label">End Date *</label>
+                            <input type="date" name="education[${index}][endDate]" class="item-field" style="color-scheme: light;" required>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            container.insertBefore(item, container.querySelector('.add-btn'));
+        }
+        
+        // Add new reference item
+        function addReference() {
+            const container = document.getElementById('referencesContainer');
+            const index = container.querySelectorAll('.item-container').length;
+            
+            const item = document.createElement('div');
+            item.className = 'item-container';
+            item.innerHTML = `
+                <button type="button" class="remove-btn" onclick="removeItem(this)">×</button>
+                <div class="item-grid">
+                    <div>
+                        <label class="item-label">Full Name *</label>
+                        <input type="text" name="references[${index}][name]" placeholder="e.g., Captain John Smith" class="item-field" required>
+                    </div>
+                    <div>
+                        <label class="item-label">Role/Relationship *</label>
+                        <input type="text" name="references[${index}][role]" placeholder="e.g., Captain, M/Y Princess Skye" class="item-field" required>
+                    </div>
+                    <div>
+                        <label class="item-label">Contact *</label>
+                        <input type="tel" name="references[${index}][contact]" placeholder="e.g., +27 82 123 4567 or email@example.com" class="item-field" required>
+                    </div>
+                    <div>
+                        <label class="item-label">Website (Optional)</label>
+                        <input type="url" name="references[${index}][website]" placeholder="e.g., https://linkedin.com/in/username" class="item-field">
+                    </div>
+                </div>
+            `;
+            
+            container.insertBefore(item, container.querySelector('.add-btn'));
+        }
+        
+        // Remove item
+        function removeItem(button) {
+            const container = button.closest('.item-container');
+            if (container && container.parentElement.querySelectorAll('.item-container').length > 1) {
+                container.remove();
+            }
+        }
+        
+        // Close and return to dashboard
+        function closeAndReturn() {
+            if (window.parent !== window) {
+                // Send message to parent to close modal
+                window.parent.postMessage({ 
+                    type: 'CLOSE_MODAL' 
+                }, '*');
+            } else {
+                // Fallback if not in iframe
+                window.location.href = '/';
+            }
+        }
+    </script>
+</body>
+</html>

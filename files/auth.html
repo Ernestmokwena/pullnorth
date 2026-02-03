@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerAI - Login & Signup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background-color: #0A0A0A;
+            color: #F9FAFB;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .bg-effect {
+            position: fixed;
+            pointer-events: none;
+            overflow: hidden;
+            inset: 0;
+            z-index: -1;
+        }
+        
+        .blob-1 {
+            position: absolute;
+            top: -96px;
+            right: -96px;
+            width: 384px;
+            height: 384px;
+            background-color: rgba(79, 70, 229, 0.1);
+            border-radius: 50%;
+            filter: blur(100px);
+        }
+        
+        .blob-2 {
+            position: absolute;
+            bottom: -96px;
+            left: -96px;
+            width: 384px;
+            height: 384px;
+            background-color: rgba(168, 85, 247, 0.1);
+            border-radius: 50%;
+            filter: blur(100px);
+        }
+        
+        .bottom-gradient {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(79, 70, 229, 0.5), transparent);
+            filter: blur(2px);
+            opacity: 0.5;
+        }
+        
+        .auth-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 2rem 1.5rem;
+        }
+        
+        .logo-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .logo-circle {
+            width: 64px;
+            height: 64px;
+            background-color: #FFFFFF;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+        
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .logo-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            margin-bottom: 0.25rem;
+        }
+        
+        .logo-subtitle {
+            font-size: 0.875rem;
+            color: #94A3B8;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 0.75rem 0;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #94A3B8;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            border: none;
+            background: transparent;
+            transition: color 0.3s ease;
+        }
+        
+        .form-container {
+            width: 100%;
+        }
+        
+        .form {
+            display: none;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .form-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #94A3B8;
+            margin-left: 0.25rem;
+        }
+        
+        .form-input {
+            height: 56px;
+            padding: 0 1rem;
+            background-color: #121212;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #FFFFFF;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #4F46E5;
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+        }
+        
+        .form-input::placeholder {
+            color: #64748B;
+        }
+        
+        .password-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-left: 0.25rem;
+        }
+        
+        .forgot-link {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #4F46E5;
+            text-decoration: none;
+        }
+        
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+        
+        .hint-text {
+            font-size: 0.75rem;
+            color: #94A3B8;
+            margin-left: 0.25rem;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 0.5rem;
+        }
+        
+        .checkbox-input {
+            margin-top: 0.25rem;
+            margin-right: 0.75rem;
+            width: 16px;
+            height: 16px;
+        }
+        
+        .checkbox-label {
+            font-size: 0.875rem;
+            color: #CBD5E1;
+            line-height: 1.4;
+        }
+        
+        .checkbox-link {
+            color: #4F46E5;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .checkbox-link:hover {
+            text-decoration: underline;
+        }
+        
+        .submit-btn {
+            height: 56px;
+            background-color: #FFFFFF;
+            color: #000000;
+            font-size: 1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            box-shadow: 0 10px 15px rgba(255, 255, 255, 0.05);
+            transition: all 0.2s ease;
+        }
+        
+        .submit-btn:hover {
+            opacity: 0.9;
+            transform: scale(0.99);
+        }
+        
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .arrow {
+            font-size: 1.125rem;
+        }
+        
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        
+        .success-message {
+            color: #10b981;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 1rem 0;
+        }
+        
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .divider-text {
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #94A3B8;
+            padding: 0 1rem;
+        }
+        
+        .social-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .social-btn {
+            height: 56px;
+            background-color: #121212;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #FFFFFF;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .social-btn:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .social-icon {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .switch-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.875rem;
+            color: #94A3B8;
+        }
+        
+        .switch-btn {
+            color: #FFFFFF;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-size: inherit;
+            padding: 0;
+        }
+        
+        .switch-btn:hover {
+            text-decoration: underline;
+        }
+        
+        .logo-fallback {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4F46E5, #8B5CF6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .tab-input {
+            display: none;
+        }
+        
+        #login-tab:checked ~ .tabs label[for="login-tab"],
+        #signup-tab:checked ~ .tabs label[for="signup-tab"] {
+            color: #4F46E5;
+        }
+        
+        #login-tab:checked ~ .tabs label[for="login-tab"]::after,
+        #signup-tab:checked ~ .tabs label[for="signup-tab"]::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #4F46E5;
+            border-radius: 2px;
+        }
+        
+        #login-tab:checked ~ .form-container #login-form,
+        #signup-tab:checked ~ .form-container #signup-form {
+            display: flex;
+        }
+        
+        @media (max-width: 480px) {
+            .auth-container {
+                padding: 1.5rem 1rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .social-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-effect">
+        <div class="blob-1"></div>
+        <div class="blob-2"></div>
+    </div>
+    
+    <div class="auth-container">
+        <div class="logo-section">
+            <div class="logo-circle">
+                <img src="../pullnorth.png" alt="pullnorth logo" class="logo-img" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'logo-fallback\'>PN</div>';">
+            </div>
+            <h1 class="logo-title">pullnorth</h1>
+            <p class="logo-subtitle">Empower your professional journey</p>
+        </div>
+        
+        <input type="radio" id="login-tab" name="tab-group" class="tab-input" checked>
+        <input type="radio" id="signup-tab" name="tab-group" class="tab-input">
+        
+        <div class="tabs">
+            <label for="login-tab" class="tab">Log In</label>
+            <label for="signup-tab" class="tab">Sign Up</label>
+        </div>
+        
+        <div class="form-container">
+            <form id="login-form" class="form" style="display: flex;">
+                <div class="form-group">
+                    <label for="login-email" class="form-label">Email Address</label>
+                    <input type="email" id="login-email" class="form-input" placeholder="name@example.com" required>
+                    <div id="login-email-error" class="error-message"></div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="password-header">
+                        <label for="login-password" class="form-label">Password</label>
+                        <a href="#" class="forgot-link" id="forgot-password">Forgot?</a>
+                    </div>
+                    <input type="password" id="login-password" class="form-input" placeholder="••••••••" required>
+                    <div id="login-password-error" class="error-message"></div>
+                    <div id="login-success" class="success-message"></div>
+                </div>
+                
+                <button type="submit" class="submit-btn" id="login-btn">
+                    <span>Log In</span>
+                    <span class="arrow">→</span>
+                </button>
+                
+                <div class="divider">
+                    <div class="divider-line"></div>
+                    <span class="divider-text">Or continue with</span>
+                    <div class="divider-line"></div>
+                </div>
+                
+                <div class="social-buttons">
+                    <button type="button" class="social-btn" id="google-login">
+                        <svg class="social-icon" viewBox="0 0 24 24">
+                            <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z" fill="currentColor"></path>
+                        </svg>
+                        <span>Google</span>
+                    </button>
+                    
+                    <button type="button" class="social-btn" id="apple-login">
+                        <svg class="social-icon" viewBox="0 0 24 24">
+                            <path d="M17.073,21.329c-0.86,0-1.611-0.428-2.585-0.428c-0.994,0-1.78,0.443-2.642,0.443c-1.428,0-3.328-1.747-4.322-3.419c-1.373-2.311-1.491-5.188-0.297-7.062c1.071-1.685,2.783-2.73,4.606-2.73c0.887,0,1.865,0.444,2.62,0.444c0.702,0,1.713-0.51,2.835-0.51c1.47,0,2.973,0.762,3.923,2.053c-2.484,1.464-2.071,4.912,0.395,6.113c-0.635,1.528-1.57,2.919-2.731,4.28C18.239,21.139,17.701,21.329,17.073,21.329z M15.137,3.61c0.866-1.123,0.781-2.428,0.735-3.11c-1.049,0.063-2.122,0.704-2.822,1.551c-0.782,0.957-0.985,2.164-0.84,3.136C13.35,5.275,14.402,4.56,15.137,3.61z" fill="currentColor"></path>
+                        </svg>
+                        <span>Apple</span>
+                    </button>
+                </div>
+                
+                <p class="switch-link">
+                    Don't have an account? 
+                    <label for="signup-tab" class="switch-btn">Sign Up</label>
+                </p>
+            </form>
+            
+            <form id="signup-form" class="form">
+                <div class="form-group">
+                    <label for="signup-name" class="form-label">Full Name</label>
+                    <input type="text" id="signup-name" class="form-input" placeholder="John Doe" required>
+                    <div id="signup-name-error" class="error-message"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="signup-email" class="form-label">Email Address</label>
+                    <input type="email" id="signup-email" class="form-input" placeholder="name@example.com" required>
+                    <div id="signup-email-error" class="error-message"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="signup-password" class="form-label">Password</label>
+                    <input type="password" id="signup-password" class="form-input" placeholder="••••••••" required minlength="8">
+                    <p class="hint-text">Must be at least 8 characters</p>
+                    <div id="signup-password-error" class="error-message"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirm-password" class="form-label">Confirm Password</label>
+                    <input type="password" id="confirm-password" class="form-input" placeholder="••••••••" required minlength="8">
+                    <div id="confirm-password-error" class="error-message"></div>
+                    <div id="signup-success" class="success-message"></div>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terms" class="checkbox-input" required>
+                    <label for="terms" class="checkbox-label">
+                        I agree to the <a href="#" class="checkbox-link">Terms of Service</a> and <a href="#" class="checkbox-link">Privacy Policy</a>
+                    </label>
+                    <div id="terms-error" class="error-message"></div>
+                </div>
+                
+                <button type="submit" class="submit-btn" id="signup-btn">
+                    <span>Create Account</span>
+                    <span class="arrow">→</span>
+                </button>
+                
+                <div class="divider">
+                    <div class="divider-line"></div>
+                    <span class="divider-text">Or continue with</span>
+                    <div class="divider-line"></div>
+                </div>
+                
+                <div class="social-buttons">
+                    <button type="button" class="social-btn" id="google-signup">
+                        <svg class="social-icon" viewBox="0 0 24 24">
+                            <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z" fill="currentColor"></path>
+                        </svg>
+                        <span>Google</span>
+                    </button>
+                    
+                    <button type="button" class="social-btn" id="apple-signup">
+                        <svg class="social-icon" viewBox="0 0 24 24">
+                            <path d="M17.073,21.329c-0.86,0-1.611-0.428-2.585-0.428c-0.994,0-1.78,0.443-2.642,0.443c-1.428,0-3.328-1.747-4.322-3.419c-1.373-2.311-1.491-5.188-0.297-7.062c1.071-1.685,2.783-2.73,4.606-2.73c0.887,0,1.865,0.444,2.62,0.444c0.702,0,1.713-0.51,2.835-0.51c1.47,0,2.973,0.762,3.923,2.053c-2.484,1.464-2.071,4.912,0.395,6.113c-0.635,1.528-1.57,2.919-2.731,4.28C18.239,21.139,17.701,21.329,17.073,21.329z M15.137,3.61c0.866-1.123,0.781-2.428,0.735-3.11c-1.049,0.063-2.122,0.704-2.822,1.551c-0.782,0.957-0.985,2.164-0.84,3.136C13.35,5.275,14.402,4.56,15.137,3.61z" fill="currentColor"></path>
+                        </svg>
+                        <span>Apple</span>
+                    </button>
+                </div>
+                
+                <p class="switch-link">
+                    Already have an account? 
+                    <label for="login-tab" class="switch-btn">Log In</label>
+                </p>
+            </form>
+        </div>
+    </div>
+    
+    <div class="bottom-gradient"></div>
+
+    <script>
+        const API_URL = window.location.origin;
+
+        // SIMPLE FUNCTIONS - NO AUTO-REDIRECTS
+        function showError(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.style.display = 'block';
+        }
+
+        function showSuccess(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.style.display = 'block';
+        }
+
+        function hideAllMessages() {
+            document.querySelectorAll('.error-message, .success-message').forEach(msg => {
+                msg.style.display = 'none';
+            });
+        }
+
+        function setLoading(button, isLoading) {
+            if (isLoading) {
+                button.classList.add('loading');
+                button.innerHTML = '<div class="spinner"></div>';
+                button.disabled = true;
+            } else {
+                button.classList.remove('loading');
+                if (button.id === 'login-btn') {
+                    button.innerHTML = '<span>Log In</span><span class="arrow">→</span>';
+                } else {
+                    button.innerHTML = '<span>Create Account</span><span class="arrow">→</span>';
+                }
+                button.disabled = false;
+            }
+        }
+
+        // Handle login - SIMPLE
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+            const loginBtn = document.getElementById('login-btn');
+            
+            if (!email) {
+                showError('login-email-error', 'Email is required');
+                return;
+            }
+            
+            if (!password) {
+                showError('login-password-error', 'Password is required');
+                return;
+            }
+            
+            hideAllMessages();
+            setLoading(loginBtn, true);
+            
+            try {
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showSuccess('login-success', 'Login successful!');
+                    
+                    // Store token
+                    localStorage.setItem('authToken', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    
+                    // SIMPLE REDIRECT - NO TIMEOUT
+                    window.location.href = '/dashboard';
+                } else {
+                    showError('login-password-error', data.error || 'Login failed');
+                }
+            } catch (error) {
+                showError('login-password-error', 'Network error');
+            } finally {
+                setLoading(loginBtn, false);
+            }
+        });
+
+        // Handle signup - SIMPLE
+        document.getElementById('signup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('signup-name').value.trim();
+            const email = document.getElementById('signup-email').value.trim();
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const terms = document.getElementById('terms').checked;
+            const signupBtn = document.getElementById('signup-btn');
+            
+            hideAllMessages();
+            
+            if (!name) {
+                showError('signup-name-error', 'Full name is required');
+                return;
+            }
+            
+            if (!email) {
+                showError('signup-email-error', 'Email is required');
+                return;
+            }
+            
+            if (!email.includes('@')) {
+                showError('signup-email-error', 'Please enter a valid email');
+                return;
+            }
+            
+            if (!password) {
+                showError('signup-password-error', 'Password is required');
+                return;
+            }
+            
+            if (password.length < 8) {
+                showError('signup-password-error', 'Password must be at least 8 characters');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showError('confirm-password-error', 'Passwords do not match');
+                return;
+            }
+            
+            if (!terms) {
+                showError('terms-error', 'You must agree to the terms');
+                return;
+            }
+            
+            setLoading(signupBtn, true);
+            
+            try {
+                const response = await fetch(`${API_URL}/auth/signup`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showSuccess('signup-success', 'Account created! You can now login.');
+                    
+                    document.getElementById('signup-name').value = '';
+                    document.getElementById('signup-email').value = '';
+                    document.getElementById('signup-password').value = '';
+                    document.getElementById('confirm-password').value = '';
+                    document.getElementById('terms').checked = false;
+                    
+                    setTimeout(() => {
+                        document.getElementById('login-tab').checked = true;
+                        document.getElementById('login-email').value = email;
+                    }, 1500);
+                } else {
+                    showError('signup-email-error', data.error || 'Signup failed');
+                }
+            } catch (error) {
+                showError('signup-email-error', 'Network error');
+            } finally {
+                setLoading(signupBtn, false);
+            }
+        });
+
+        document.getElementById('forgot-password').addEventListener('click', (e) => {
+            e.preventDefault();
+            const email = prompt('Please enter your email to reset password:');
+            if (email) {
+                alert(`Password reset link would be sent to ${email}`);
+            }
+        });
+
+        document.querySelectorAll('.social-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                alert('Social login would be implemented here');
+            });
+        });
+    </script>
+</body>
+</html>

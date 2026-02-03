@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Professional CV Template – Deckhand</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #ffffff;
+      color: #111;
+      font-size: 12pt;
+      line-height: 1.35;
+    }
+
+    .page {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 30px 26px;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .name h1 {
+      margin: 0;
+      font-size: 28pt;
+      font-weight: 800;
+    }
+
+    .name .role {
+      margin-top: 4px;
+      font-size: 14pt;
+      font-weight: 700;
+    }
+
+    .name .contact {
+      margin-top: 6px;
+      font-size: 11pt;
+      color: #444;
+    }
+
+    .photo {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f5f5f5;
+    }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Layout */
+    .content {
+      display: grid;
+      grid-template-columns: 2.2fr 1fr;
+      gap: 26px;
+      margin-top: 20px;
+    }
+
+    h2 {
+      font-size: 14pt;
+      font-weight: 800;
+      border-bottom: 2px solid #999;
+      padding-bottom: 6px;
+      margin: 18px 0 8px;
+    }
+
+    p {
+      margin: 0 0 10px 0;
+    }
+
+    ul {
+      margin: 6px 0 0 18px;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    .job {
+      margin-bottom: 14px;
+    }
+
+    .job-title {
+      font-weight: 800;
+    }
+
+    .job-meta {
+      font-size: 11pt;
+      color: #444;
+      margin-bottom: 4px;
+    }
+
+    /* Sidebar */
+    .sidebar h3 {
+      font-size: 13pt;
+      font-weight: 800;
+      margin: 16px 0 6px;
+      border-bottom: 2px solid #999;
+      padding-bottom: 4px;
+    }
+
+    .sidebar ul {
+      margin-left: 18px;
+    }
+
+    .sidebar li {
+      font-size: 11.5pt;
+    }
+
+    .ref {
+      margin-bottom: 10px;
+      font-size: 11.5pt;
+    }
+
+    /* Print controls */
+    @media print {
+      .page {
+        padding: 0.6in;
+      }
+      .job, .sidebar ul, .ref {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+
+    <!-- HEADER -->
+    <section class="header">
+      <div class="name">
+        <h1>{{FULL_NAME}}</h1>
+        <div class="role">{{TARGET_ROLE}}</div>
+        <div class="contact">
+          {{EMAIL}} | {{PHONE}}<br />
+          LinkedIn: {{LINKEDIN}}
+        </div>
+      </div>
+
+      <div class="photo">
+        {{PHOTO_HTML}}
+      </div>
+    </section>
+
+    <!-- BODY -->
+    <section class="content">
+
+      <!-- LEFT COLUMN -->
+      <div class="main">
+
+        <h2>Personal Profile</h2>
+        <p>
+          {{PERSONAL_PROFILE}}
+        </p>
+
+        <h2>Career Objective</h2>
+        <p>
+          {{CAREER_OBJECTIVE}}
+        </p>
+
+        <h2>Experience</h2>
+
+        {{EXPERIENCE_SECTION}}
+
+        <h2>Superyacht Qualifications</h2>
+        <ul>
+          {{QUALIFICATIONS_SECTION}}
+        </ul>
+
+      </div>
+
+      <!-- RIGHT SIDEBAR -->
+      <aside class="sidebar">
+
+        <h3>Personal Info</h3>
+        <ul>
+          <li>Location: {{LOCATION}}</li>
+          <li>Nationality: {{NATIONALITY}}</li>
+          <li>Languages: {{LANGUAGES}}</li>
+          <li>Health: {{HEALTH}}</li>
+        </ul>
+
+        <h3>Hobbies & Interests</h3>
+        <ul>
+          {{HOBBIES_SECTION}}
+        </ul>
+
+        <h3>Skills</h3>
+        <ul>
+          {{SKILLS_SECTION}}
+        </ul>
+
+        <h3>Education</h3>
+        <ul>
+          {{EDUCATION_SECTION}}
+        </ul>
+
+        <h3>References</h3>
+        {{REFERENCES_SECTION}}
+
+      </aside>
+
+    </section>
+  </main>
+</body>
+</html>
