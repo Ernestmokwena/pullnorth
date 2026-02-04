@@ -97,7 +97,8 @@ app.post('/auth/signup', async (req, res) => {
             email: email,
             password: password,
             options: {
-                data: { name: name }
+                data: { name: name },
+                emailRedirectTo: `${req.headers.origin}/dashboard`
             }
         });
 
@@ -107,7 +108,7 @@ app.post('/auth/signup', async (req, res) => {
 
         res.json({
             success: true,
-            message: 'Account created successfully',
+            message: 'Account created successfully. Please check your email to verify your account.',
             user: {
                 id: data.user.id,
                 email: email,
@@ -116,6 +117,7 @@ app.post('/auth/signup', async (req, res) => {
         });
 
     } catch (error) {
+        console.error('Signup error:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
@@ -130,6 +132,7 @@ app.post('/auth/login', async (req, res) => {
         });
 
         if (error) {
+            console.error('Login error:', error.message);
             return res.status(401).json({ error: 'Invalid email or password' });
         }
 
@@ -144,6 +147,7 @@ app.post('/auth/login', async (req, res) => {
         });
 
     } catch (error) {
+        console.error('Login error:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
@@ -169,6 +173,76 @@ app.post('/auth/verify', async (req, res) => {
 
     } catch (error) {
         res.status(401).json({ error: 'Token verification failed' });
+    }
+});
+
+// ==================== PASSWORD RESET ENDPOINTS ====================
+
+app.post('/auth/forgot-password', async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        if (!email) {
+            return res.status(400).json({ error: 'Email is required' });
+        }
+
+        // Use Supabase's built-in password reset
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+            redirectTo: `${req.headers.origin}/reset-password`,
+        });
+
+        if (error) {
+            console.error('Password reset error:', error.message);
+            // For security, don't reveal if email exists or not
+            return res.json({ 
+                success: true, 
+                message: 'If an account exists with this email, you will receive a password reset link.' 
+            });
+        }
+
+        res.json({ 
+            success: true, 
+            message: 'If an account exists with this email, you will receive a password reset link.' 
+        });
+
+    } catch (error) {
+        console.error('Forgot password error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// ==================== RESEND VERIFICATION ENDPOINT ====================
+
+app.post('/auth/resend-verification', async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        if (!email) {
+            return res.status(400).json({ error: 'Email is required' });
+        }
+
+        // Use Supabase's built-in resend confirmation
+        const { error } = await supabase.auth.resend({
+            type: 'signup',
+            email: email,
+            options: {
+                emailRedirectTo: `${req.headers.origin}/dashboard`
+            }
+        });
+
+        if (error) {
+            console.error('Resend verification error:', error.message);
+            return res.status(400).json({ error: error.message });
+        }
+
+        res.json({ 
+            success: true, 
+            message: 'Verification email resent successfully. Please check your inbox.' 
+        });
+
+    } catch (error) {
+        console.error('Resend verification error:', error);
+        res.status(500).json({ error: 'Internal server error' });
     }
 });
 
@@ -267,6 +341,7 @@ app.get('/user/cvs', async (req, res) => {
         });
 
     } catch (error) {
+        console.error('Get CVs error:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
@@ -808,9 +883,16 @@ app.listen(PORT, () => {
     console.log('AI-Enhanced CV Generator Server');
     console.log('=========================================');
     console.log(`Server running: http://localhost:${PORT}`);
-    console.log('AI Enhancement: ENABLED ✓');
+    console.log('AI Enhancement: ENABLED ');
     console.log('Enhancement Type: Grammar & Structure Only');
     console.log('Data Policy: User Data Only - NO Added Information');
+    console.log('=========================================');
+    console.log('');
+    console.log('Authentication Features:');
+    console.log('Signup with email verification');
+    console.log('Login with JWT tokens');
+    console.log('Password reset via Supabase');
+    console.log('Resend verification email');
     console.log('=========================================');
     console.log('');
 
