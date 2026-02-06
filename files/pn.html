@@ -1273,6 +1273,271 @@
     </div>
 
     <script>
+        // ==================== DATA PERSISTENCE FUNCTIONS ====================
+        
+        // Function to save form data to localStorage
+        function saveFormData() {
+            const formData = {
+                // Basic fields
+                firstName: document.getElementById('firstName')?.value || '',
+                lastName: document.getElementById('lastName')?.value || '',
+                email: document.getElementById('email')?.value || '',
+                phone: document.getElementById('phone')?.value || '',
+                location: document.getElementById('location')?.value || '',
+                nationality: document.getElementById('nationality')?.value || '',
+                languages: document.getElementById('languages')?.value || '',
+                visaStatus: document.getElementById('visaStatus')?.value || '',
+                health: document.getElementById('health')?.value || '',
+                targetRole: document.getElementById('targetRole')?.value || '',
+                skills: document.getElementById('skills')?.value || '',
+                profile: document.getElementById('profile')?.value || '',
+                hobbiesAndInterests: document.getElementById('hobbiesAndInterests')?.value || '',
+                
+                // Radio buttons
+                highestQualification: document.querySelector('input[name="highestQualification"]:checked')?.value || '',
+                
+                // Dynamic sections
+                experience: [],
+                certifications: [],
+                education: [],
+                references: []
+            };
+            
+            // Save experience items
+            document.querySelectorAll('#experienceContainer .item-container').forEach((container, index) => {
+                const experience = {
+                    role: container.querySelector('input[name*="[role]"]')?.value || '',
+                    company: container.querySelector('input[name*="[company]"]')?.value || '',
+                    startDate: container.querySelector('input[name*="[startDate]"]')?.value || '',
+                    endDate: container.querySelector('input[name*="[endDate]"]')?.value || '',
+                    location: container.querySelector('input[name*="[location]"]')?.value || '',
+                    vessel: container.querySelector('input[name*="[vessel]"]')?.value || '',
+                    responsibilities: container.querySelector('textarea[name*="[responsibilities]"]')?.value || ''
+                };
+                formData.experience.push(experience);
+            });
+            
+            // Save certification items
+            document.querySelectorAll('#certificationsContainer .item-container').forEach((container, index) => {
+                const certification = {
+                    name: container.querySelector('input[name*="[name]"]')?.value || '',
+                    issuer: container.querySelector('input[name*="[issuer]"]')?.value || '',
+                    validity: container.querySelector('input[name*="[validity]"]')?.value || ''
+                };
+                formData.certifications.push(certification);
+            });
+            
+            // Save education items
+            document.querySelectorAll('#educationContainer .item-container').forEach((container, index) => {
+                const education = {
+                    qualification: container.querySelector('input[name*="[qualification]"]')?.value || '',
+                    institution: container.querySelector('input[name*="[institution]"]')?.value || '',
+                    startDate: container.querySelector('input[name*="[startDate]"]')?.value || '',
+                    endDate: container.querySelector('input[name*="[endDate]"]')?.value || ''
+                };
+                formData.education.push(education);
+            });
+            
+            // Save reference items
+            document.querySelectorAll('#referencesContainer .item-container').forEach((container, index) => {
+                const reference = {
+                    name: container.querySelector('input[name*="[name]"]')?.value || '',
+                    role: container.querySelector('input[name*="[role]"]')?.value || '',
+                    contact: container.querySelector('input[name*="[contact]"]')?.value || '',
+                    website: container.querySelector('input[name*="[website]"]')?.value || ''
+                };
+                formData.references.push(reference);
+            });
+            
+            // Save to localStorage with timestamp
+            const saveData = {
+                data: formData,
+                timestamp: new Date().toISOString(),
+                version: '1.0'
+            };
+            
+            localStorage.setItem('cvFormDraft', JSON.stringify(saveData));
+            console.log('Form data saved to draft at', saveData.timestamp);
+        }
+        
+        // Function to load saved form data
+        function loadSavedFormData() {
+            const savedData = localStorage.getItem('cvFormDraft');
+            if (!savedData) {
+                console.log('No saved form data found');
+                return;
+            }
+            
+            try {
+                const { data: formData, timestamp } = JSON.parse(savedData);
+                console.log('Loading saved form data from', timestamp);
+                
+                // Basic fields
+                if (formData.firstName) document.getElementById('firstName').value = formData.firstName;
+                if (formData.lastName) document.getElementById('lastName').value = formData.lastName;
+                if (formData.email) document.getElementById('email').value = formData.email;
+                if (formData.phone) document.getElementById('phone').value = formData.phone;
+                if (formData.location) document.getElementById('location').value = formData.location;
+                if (formData.nationality) document.getElementById('nationality').value = formData.nationality;
+                if (formData.languages) document.getElementById('languages').value = formData.languages;
+                if (formData.visaStatus) document.getElementById('visaStatus').value = formData.visaStatus;
+                if (formData.health) document.getElementById('health').value = formData.health;
+                if (formData.targetRole) document.getElementById('targetRole').value = formData.targetRole;
+                if (formData.skills) document.getElementById('skills').value = formData.skills;
+                if (formData.profile) document.getElementById('profile').value = formData.profile;
+                if (formData.hobbiesAndInterests) document.getElementById('hobbiesAndInterests').value = formData.hobbiesAndInterests;
+                
+                // Radio buttons
+                if (formData.highestQualification) {
+                    const radio = document.querySelector(`input[name="highestQualification"][value="${formData.highestQualification}"]`);
+                    if (radio) radio.checked = true;
+                }
+                
+                // Load experience items (skip first default one)
+                if (formData.experience && formData.experience.length > 0) {
+                    // Clear default experience item
+                    const expContainer = document.getElementById('experienceContainer');
+                    const defaultExp = expContainer.querySelector('.item-container');
+                    
+                    // Remove all but first (default) experience items
+                    const allExpItems = expContainer.querySelectorAll('.item-container');
+                    allExpItems.forEach((item, index) => {
+                        if (index > 0) item.remove();
+                    });
+                    
+                    // Reset first item
+                    if (defaultExp && formData.experience[0]) {
+                        const exp = formData.experience[0];
+                        defaultExp.querySelector('input[name*="[role]"]').value = exp.role || '';
+                        defaultExp.querySelector('input[name*="[company]"]').value = exp.company || '';
+                        defaultExp.querySelector('input[name*="[startDate]"]').value = exp.startDate || '';
+                        defaultExp.querySelector('input[name*="[endDate]"]').value = exp.endDate || '';
+                        defaultExp.querySelector('input[name*="[location]"]').value = exp.location || '';
+                        defaultExp.querySelector('input[name*="[vessel]"]').value = exp.vessel || '';
+                        defaultExp.querySelector('textarea[name*="[responsibilities]"]').value = exp.responsibilities || '';
+                    }
+                    
+                    // Add additional experience items
+                    for (let i = 1; i < formData.experience.length; i++) {
+                        addExperience();
+                        const newItem = expContainer.querySelectorAll('.item-container')[i];
+                        const exp = formData.experience[i];
+                        newItem.querySelector('input[name*="[role]"]').value = exp.role || '';
+                        newItem.querySelector('input[name*="[company]"]').value = exp.company || '';
+                        newItem.querySelector('input[name*="[startDate]"]').value = exp.startDate || '';
+                        newItem.querySelector('input[name*="[endDate]"]').value = exp.endDate || '';
+                        newItem.querySelector('input[name*="[location]"]').value = exp.location || '';
+                        newItem.querySelector('input[name*="[vessel]"]').value = exp.vessel || '';
+                        newItem.querySelector('textarea[name*="[responsibilities]"]').value = exp.responsibilities || '';
+                    }
+                }
+                
+                // Load certification items
+                if (formData.certifications && formData.certifications.length > 0) {
+                    const certContainer = document.getElementById('certificationsContainer');
+                    const defaultCert = certContainer.querySelector('.item-container');
+                    
+                    const allCertItems = certContainer.querySelectorAll('.item-container');
+                    allCertItems.forEach((item, index) => {
+                        if (index > 0) item.remove();
+                    });
+                    
+                    if (defaultCert && formData.certifications[0]) {
+                        const cert = formData.certifications[0];
+                        defaultCert.querySelector('input[name*="[name]"]').value = cert.name || '';
+                        defaultCert.querySelector('input[name*="[issuer]"]').value = cert.issuer || '';
+                        defaultCert.querySelector('input[name*="[validity]"]').value = cert.validity || '';
+                    }
+                    
+                    for (let i = 1; i < formData.certifications.length; i++) {
+                        addCertification();
+                        const newItem = certContainer.querySelectorAll('.item-container')[i];
+                        const cert = formData.certifications[i];
+                        newItem.querySelector('input[name*="[name]"]').value = cert.name || '';
+                        newItem.querySelector('input[name*="[issuer]"]').value = cert.issuer || '';
+                        newItem.querySelector('input[name*="[validity]"]').value = cert.validity || '';
+                    }
+                }
+                
+                // Load education items
+                if (formData.education && formData.education.length > 0) {
+                    const eduContainer = document.getElementById('educationContainer');
+                    const defaultEdu = eduContainer.querySelector('.item-container');
+                    
+                    const allEduItems = eduContainer.querySelectorAll('.item-container');
+                    allEduItems.forEach((item, index) => {
+                        if (index > 0) item.remove();
+                    });
+                    
+                    if (defaultEdu && formData.education[0]) {
+                        const edu = formData.education[0];
+                        defaultEdu.querySelector('input[name*="[qualification]"]').value = edu.qualification || '';
+                        defaultEdu.querySelector('input[name*="[institution]"]').value = edu.institution || '';
+                        defaultEdu.querySelector('input[name*="[startDate]"]').value = edu.startDate || '';
+                        defaultEdu.querySelector('input[name*="[endDate]"]').value = edu.endDate || '';
+                    }
+                    
+                    for (let i = 1; i < formData.education.length; i++) {
+                        addEducation();
+                        const newItem = eduContainer.querySelectorAll('.item-container')[i];
+                        const edu = formData.education[i];
+                        newItem.querySelector('input[name*="[qualification]"]').value = edu.qualification || '';
+                        newItem.querySelector('input[name*="[institution]"]').value = edu.institution || '';
+                        newItem.querySelector('input[name*="[startDate]"]').value = edu.startDate || '';
+                        newItem.querySelector('input[name*="[endDate]"]').value = edu.endDate || '';
+                    }
+                }
+                
+                // Load reference items
+                if (formData.references && formData.references.length > 0) {
+                    const refContainer = document.getElementById('referencesContainer');
+                    const defaultRef = refContainer.querySelector('.item-container');
+                    
+                    const allRefItems = refContainer.querySelectorAll('.item-container');
+                    allRefItems.forEach((item, index) => {
+                        if (index > 0) item.remove();
+                    });
+                    
+                    if (defaultRef && formData.references[0]) {
+                        const ref = formData.references[0];
+                        defaultRef.querySelector('input[name*="[name]"]').value = ref.name || '';
+                        defaultRef.querySelector('input[name*="[role]"]').value = ref.role || '';
+                        defaultRef.querySelector('input[name*="[contact]"]').value = ref.contact || '';
+                        defaultRef.querySelector('input[name*="[website]"]').value = ref.website || '';
+                    }
+                    
+                    for (let i = 1; i < formData.references.length; i++) {
+                        addReference();
+                        const newItem = refContainer.querySelectorAll('.item-container')[i];
+                        const ref = formData.references[i];
+                        newItem.querySelector('input[name*="[name]"]').value = ref.name || '';
+                        newItem.querySelector('input[name*="[role]"]').value = ref.role || '';
+                        newItem.querySelector('input[name*="[contact]"]').value = ref.contact || '';
+                        newItem.querySelector('input[name*="[website]"]').value = ref.website || '';
+                    }
+                }
+                
+                // Update character counter
+                const profileTextarea = document.getElementById('profile');
+                if (profileTextarea) {
+                    updateCharCount(profileTextarea);
+                }
+                
+                console.log('Form data loaded successfully');
+                
+            } catch (error) {
+                console.error('Error loading saved form data:', error);
+            }
+        }
+        
+        // Function to clear saved form data
+        function clearSavedFormData() {
+            localStorage.removeItem('cvFormDraft');
+            console.log('Cleared saved form data');
+        }
+        
+        // ==================== EXISTING FUNCTIONS (UPDATED) ====================
+        
         // Check authentication when page loads
         document.addEventListener('DOMContentLoaded', function() {
             // Check if user is logged in
@@ -1336,6 +1601,29 @@
                     // Silent fail
                 }
             }
+            
+            // Load saved form data
+            loadSavedFormData();
+            
+            // Set up auto-save
+            let saveTimeout;
+            const form = document.getElementById('cvForm');
+            if (form) {
+                form.addEventListener('input', function() {
+                    clearTimeout(saveTimeout);
+                    saveTimeout = setTimeout(saveFormData, 1000);
+                });
+                
+                // Also save on change for radio buttons
+                form.querySelectorAll('input[type="radio"]').forEach(radio => {
+                    radio.addEventListener('change', saveFormData);
+                });
+            }
+            
+            // Save before page unload/closing
+            window.addEventListener('beforeunload', function() {
+                saveFormData();
+            });
             
             // Set max date for date inputs to today
             const today = new Date().toISOString().split('T')[0];
@@ -1447,6 +1735,7 @@
                 reader.readAsDataURL(file);
                 
                 console.log('Photo uploaded:', file.name);
+                saveFormData(); // Save after photo upload
             } else {
                 // Reset preview
                 preview.src = '';
@@ -1455,7 +1744,7 @@
             }
         }
         
-        // Intelligent form submission - FIXED VERSION
+        // Intelligent form submission
         async function handleSubmit(event) {
             event.preventDefault();
             
@@ -1481,6 +1770,9 @@
                 }
                 return false;
             }
+            
+            // Clear saved data on successful submission
+            clearSavedFormData();
             
             // Create FormData for submission
             const submissionData = new FormData();
@@ -1604,7 +1896,7 @@
         
         // Discard form
         function discardForm() {
-            if (confirm('Are you sure you want to discard all changes?')) {
+            if (confirm('Are you sure you want to discard all changes? This will clear all saved data.')) {
                 document.getElementById('cvForm').reset();
                 
                 // Reset photo preview
@@ -1629,6 +1921,12 @@
                         }
                     });
                 });
+                
+                // Clear saved data from localStorage
+                clearSavedFormData();
+                
+                // Update character counter
+                updateCharCount(document.getElementById('profile'));
             }
         }
         
@@ -1653,6 +1951,7 @@
             `;
             
             container.insertBefore(item, container.querySelector('.add-btn'));
+            saveFormData(); // Save after adding
         }
         
         // Add new certification item
@@ -1681,6 +1980,7 @@
             `;
             
             container.insertBefore(item, container.querySelector('.add-btn'));
+            saveFormData(); // Save after adding
         }
         
         // Add new education item
@@ -1715,6 +2015,7 @@
             `;
             
             container.insertBefore(item, container.querySelector('.add-btn'));
+            saveFormData(); // Save after adding
         }
         
         // Add new reference item
@@ -1747,6 +2048,7 @@
             `;
             
             container.insertBefore(item, container.querySelector('.add-btn'));
+            saveFormData(); // Save after adding
         }
         
         // Remove item
@@ -1754,11 +2056,15 @@
             const container = button.closest('.item-container');
             if (container && container.parentElement.querySelectorAll('.item-container').length > 1) {
                 container.remove();
+                saveFormData(); // Save after removing
             }
         }
         
         // Close and return to dashboard
         function closeAndReturn() {
+            // Save form data before closing
+            saveFormData();
+            
             if (window.parent !== window) {
                 // Send message to parent to close modal
                 window.parent.postMessage({ 
