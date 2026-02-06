@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Professional CV Template – Deckhand</title>
+  <title>Professional CV - {{FULL_NAME}}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
@@ -84,17 +84,26 @@
       margin: 18px 0 8px;
     }
 
+    h3 {
+      font-size: 13pt;
+      font-weight: 800;
+      margin: 16px 0 6px;
+      border-bottom: 2px solid #999;
+      padding-bottom: 4px;
+    }
+
     p {
       margin: 0 0 10px 0;
     }
 
     ul {
-      margin: 6px 0 0 18px;
-      padding: 0;
+      margin: 6px 0 0 0;
+      padding-left: 18px;
     }
 
     li {
       margin-bottom: 4px;
+      font-size: 11.5pt;
     }
 
     .job {
@@ -103,34 +112,38 @@
 
     .job-title {
       font-weight: 800;
-    }
-
-    .job-meta {
-      font-size: 11pt;
-      color: #444;
+      font-size: 13pt;
       margin-bottom: 4px;
     }
 
-    /* Sidebar */
-    .sidebar h3 {
-      font-size: 13pt;
-      font-weight: 800;
-      margin: 16px 0 6px;
-      border-bottom: 2px solid #999;
-      padding-bottom: 4px;
+    .job-description {
+      margin: 0;
+      padding-left: 10px;
+      border-left: 2px solid #ddd;
     }
 
-    .sidebar ul {
-      margin-left: 18px;
-    }
-
-    .sidebar li {
+    .skill-item, .achievement-item, .education-item, .certification-item, .reference-item {
+      margin-bottom: 6px;
       font-size: 11.5pt;
     }
 
-    .ref {
-      margin-bottom: 10px;
-      font-size: 11.5pt;
+    .achievement-item {
+      padding-left: 10px;
+      position: relative;
+    }
+
+    .achievement-item:before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #333;
+    }
+
+    .contact-info {
+      font-size: 11pt;
+      color: #444;
+      margin-top: 6px;
+      line-height: 1.4;
     }
 
     /* Print controls */
@@ -138,7 +151,7 @@
       .page {
         padding: 0.6in;
       }
-      .job, .sidebar ul, .ref {
+      .job, .sidebar ul, .skill-item, .achievement-item {
         page-break-inside: avoid;
       }
     }
@@ -153,9 +166,8 @@
       <div class="name">
         <h1>{{FULL_NAME}}</h1>
         <div class="role">{{TARGET_ROLE}}</div>
-        <div class="contact">
-          {{EMAIL}} | {{PHONE}}<br />
-          LinkedIn: {{LINKEDIN}}
+        <div class="contact-info">
+          {{CONTACT_INFO}}
         </div>
       </div>
 
@@ -169,57 +181,51 @@
 
       <!-- LEFT COLUMN -->
       <div class="main">
-
-        <h2>Personal Profile</h2>
-        <p>
-          {{PERSONAL_PROFILE}}
-        </p>
-
-        <h2>Career Objective</h2>
-        <p>
-          {{CAREER_OBJECTIVE}}
-        </p>
+        <h2>Professional Summary</h2>
+        <p>{{PROFESSIONAL_SUMMARY}}</p>
 
         <h2>Experience</h2>
-
         {{EXPERIENCE_SECTION}}
 
-        <h2>Superyacht Qualifications</h2>
-        <ul>
-          {{QUALIFICATIONS_SECTION}}
-        </ul>
+        {{ACHIEVEMENTS_SECTION}}
 
+        {{CERTIFICATIONS_SECTION}}
       </div>
 
       <!-- RIGHT SIDEBAR -->
       <aside class="sidebar">
-
-        <h3>Personal Info</h3>
+        <h3>Personal Details</h3>
         <ul>
-          <li>Location: {{LOCATION}}</li>
-          <li>Nationality: {{NATIONALITY}}</li>
-          <li>Languages: {{LANGUAGES}}</li>
-          <li>Health: {{HEALTH}}</li>
-        </ul>
-
-        <h3>Hobbies & Interests</h3>
-        <ul>
-          {{HOBBIES_SECTION}}
+          {{PERSONAL_DETAILS_SECTION}}
         </ul>
 
         <h3>Skills</h3>
         <ul>
-          {{SKILLS_SECTION}}
+          {{SKILLS_LIST_SECTION}}
         </ul>
 
         <h3>Education</h3>
         <ul>
-          {{EDUCATION_SECTION}}
+          {{EDUCATION_LIST_SECTION}}
+        </ul>
+
+        <h3>Languages</h3>
+        <ul>
+          {{LANGUAGES_LIST_SECTION}}
+        </ul>
+
+        <h3>Hobbies & Interests</h3>
+        <ul>
+          {{HOBBIES_LIST_SECTION}}
+        </ul>
+
+        <h3>Availability & Status</h3>
+        <ul>
+          {{STATUS_SECTION}}
         </ul>
 
         <h3>References</h3>
         {{REFERENCES_SECTION}}
-
       </aside>
 
     </section>
