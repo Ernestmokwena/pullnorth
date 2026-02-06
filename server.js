@@ -346,9 +346,9 @@ app.get('/user/cvs', async (req, res) => {
     }
 });
 
-// ==================== AI ENHANCEMENT FUNCTIONS (ONLY USER DATA) ====================
+// ==================== IMPROVED AI FUNCTIONS WITH LI HANDLING ====================
 
-async function enhanceWithAI(originalText, enhancementType, context = {}) {
+async function enhanceWithAI(originalText, enhancementType) {
     if (!originalText || originalText.trim() === '') {
         return '';
     }
@@ -381,18 +381,15 @@ async function enhanceWithAI(originalText, enhancementType, context = {}) {
                 role: "user",
                 content: prompt
             }],
-            temperature: 0.3, // Low temperature for consistency
+            temperature: 0.3,
             max_tokens: 500
         });
 
         let enhancedText = response.choices[0].message.content.trim();
         
-        // Remove any quotes that GPT might add
         enhancedText = enhancedText.replace(/^"(.*)"$/, '$1');
         
-        // Ensure we didn't lose the original meaning
         if (enhancedText.length < originalText.length / 2) {
-            // If GPT shortened too much, use original with basic cleanup
             console.log('GPT shortened too much, using cleaned original');
             return originalText.replace(/\s+/g, ' ').trim();
         }
@@ -401,14 +398,161 @@ async function enhanceWithAI(originalText, enhancementType, context = {}) {
 
     } catch (error) {
         console.log(`AI enhancement error for ${enhancementType}:`, error.message);
-        // Return cleaned original text as fallback
         return originalText.replace(/\s+/g, ' ').trim();
     }
 }
 
+async function createListFromText(userText, context) {
+    if (!userText || userText.trim() === '') {
+        return [];
+    }
+
+    try {
+        const response = await openai.chat.completions.create({
+            model: "gpt-3.5-turbo",
+            messages: [{
+                role: "system",
+                content: `Extract and format items for a CV ${context} section. Return ONLY a JSON array of strings. No explanations.`
+            }, {
+                role: "user",
+                content: `Extract distinct items from this text for a CV ${context} section. Return as JSON array: "${userText}"`
+            }],
+            temperature: 0.3,
+            max_tokens: 300
+        });
+
+        const content = response.choices[0].message.content.trim();
+        let items = [];
+        
+        // Try to parse JSON
+        try {
+            // Clean the response first
+            const cleaned = content.replace(/```json\n?|\n?```/g, '').trim();
+            const parsed = JSON.parse(cleaned);
+            
+            if (Array.isArray(parsed)) {
+                items = parsed;
+            } else if (typeof parsed === 'object') {
+                // Try to find any array in the object
+                for (const key in parsed) {
+                    if (Array.isArray(parsed[key])) {
+                        items = parsed[key];
+                        break;
+                    }
+                }
+            }
+        } catch (e) {
+            console.log('JSON parse failed, trying text extraction');
+        }
+
+        // If no items from JSON parsing, try to extract from text
+        if (items.length === 0) {
+            // Look for array-like patterns in the response
+            const arrayMatch = content.match(/\[(.*?)\]/s);
+            if (arrayMatch) {
+                const inside = arrayMatch[1];
+                items = inside.split(',').map(item => item.trim().replace(/['"]/g, '')).filter(item => item);
+            }
+        }
+
+        // Final fallback: simple parsing
+        if (items.length === 0) {
+            items = userText.split(/[,;\/\n]/)
+                .map(item => item.trim())
+                .filter(item => item.length > 0 && item.length < 100);
+        }
+
+        // Clean and limit items
+        items = items
+            .map(item => {
+                item = item.replace(/^[•\-\*\d\.\)\s]+/, '').trim();
+                if (item.length > 0) {
+                    return item.charAt(0).toUpperCase() + item.slice(1);
+                }
+                return item;
+            })
+            .filter(item => item.length > 0 && item.length < 80)
+            .slice(0, 8);
+
+        return items;
+
+    } catch (error) {
+        console.log('List creation error:', error.message);
+        return userText.split(/[,;\/\n]/)
+            .map(item => item.trim())
+            .filter(item => item.length > 0 && item.length < 80)
+            .slice(0, 5);
+    }
+}
+
+async function createSkillsList(userSkills) {
+    if (!userSkills || userSkills.trim() === '') {
+        return [
+            'Team collaboration',
+            'Problem solving',
+            'Adaptability',
+            'Professional communication'
+        ];
+    }
+
+    const skillItems = await createListFromText(userSkills, 'skills');
+    
+    if (skillItems.length === 0) {
+        return [
+            'Professional skills',
+            'Reliable work ethic',
+            'Quick learner',
+            'Detail oriented'
+        ];
+    }
+
+    return skillItems;
+}
+
+async function createEducationList(userEducation) {
+    if (!userEducation || userEducation.trim() === '') {
+        return ['Education details provided'];
+    }
+
+    const educationItems = await createListFromText(userEducation, 'education');
+    
+    if (educationItems.length === 0) {
+        return [userEducation.substring(0, 80)];
+    }
+
+    return educationItems;
+}
+
+async function createLanguagesList(userLanguages) {
+    if (!userLanguages || userLanguages.trim() === '') {
+        return ['English'];
+    }
+
+    const languageItems = await createListFromText(userLanguages, 'languages');
+    
+    if (languageItems.length === 0) {
+        return [userLanguages.substring(0, 50)];
+    }
+
+    return languageItems;
+}
+
+async function createHobbiesList(userHobbies) {
+    if (!userHobbies || userHobbies.trim() === '') {
+        return ['Professional development', 'Continuous learning'];
+    }
+
+    const hobbyItems = await createListFromText(userHobbies, 'hobbies');
+    
+    if (hobbyItems.length === 0) {
+        return [userHobbies.substring(0, 50)];
+    }
+
+    return hobbyItems;
+}
+
 async function createProfessionalExperience(userProfile, targetRole) {
     if (!userProfile || userProfile.trim() === '') {
-        // If user provided no profile, create a very generic one
         return `
         <div class="job">
             <div class="job-title">${targetRole}</div>
@@ -417,7 +561,6 @@ async function createProfessionalExperience(userProfile, targetRole) {
     }
     
     try {
-        // Enhance the user's profile text to create experience section
         const enhancedProfile = await enhanceWithAI(userProfile, 'experience');
         
         return `
@@ -436,69 +579,12 @@ async function createProfessionalExperience(userProfile, targetRole) {
     }
 }
 
-async function createSkillsSection(userSkills, targetRole) {
-    if (!userSkills || userSkills.trim() === '') {
-        // If no skills provided, create basic ones based on role
-        const roleBasedSkills = {
-            'deckhand': 'Deck maintenance, Safety procedures, Line handling',
-            'steward': 'Guest service, Housekeeping, Table service',
-            'chef': 'Food preparation, Menu planning, Galley management',
-            'engineer': 'Mechanical systems, Troubleshooting, Maintenance',
-            'graphic designer': 'Adobe Creative Suite, Visual design, Branding'
-        };
-        
-        const defaultSkills = roleBasedSkills[targetRole.toLowerCase()] || 
-                             'Professional skills, Team collaboration, Problem solving';
-        
-        const skillsArray = defaultSkills.split(',').map(s => s.trim());
-        const skillsHTML = skillsArray.map(skill => 
-            `<div class="skill-item">${skill}</div>`
-        ).join('\n          ');
-        
-        return skillsHTML;
-    }
-    
-    try {
-        // Enhance the skills formatting
-        const enhancedSkills = await enhanceWithAI(userSkills, 'skills');
-        let skillsArray;
-        
-        // Parse the enhanced skills
-        if (enhancedSkills.includes(',') || enhancedSkills.includes(';')) {
-            skillsArray = enhancedSkills.split(/[,;]/).map(s => s.trim()).filter(s => s);
-        } else {
-            skillsArray = enhancedSkills.split(/\s+/).map(s => s.trim()).filter(s => s.length > 3);
-        }
-        
-        // Limit to 8 skills maximum
-        const displaySkills = skillsArray.slice(0, 8);
-        
-        const skillsHTML = displaySkills.map(skill => 
-            `<div class="skill-item">${skill}</div>`
-        ).join('\n          ');
-        
-        return skillsHTML;
-        
-    } catch (error) {
-        console.log('Skills creation error:', error.message);
-        // Fallback to basic formatting
-        const skillsArray = userSkills.split(/[,;]/).map(s => s.trim()).filter(s => s);
-        const displaySkills = skillsArray.slice(0, 8);
-        const skillsHTML = displaySkills.map(skill => 
-            `<div class="skill-item">${skill}</div>`
-        ).join('\n          ');
-        
-        return skillsHTML;
-    }
-}
-
 async function createProfessionalSummary(userProfile, targetRole) {
     if (!userProfile || userProfile.trim() === '') {
         return `Professional ${targetRole} seeking new opportunities.`;
     }
     
     try {
-        // Enhance the user's profile to create a summary
         const enhancedSummary = await enhanceWithAI(userProfile, 'profile');
         return enhancedSummary;
         
@@ -509,7 +595,6 @@ async function createProfessionalSummary(userProfile, targetRole) {
 }
 
 async function createCertificationsSection(userProfile) {
-    // Only create certifications if user mentioned them
     if (!userProfile) {
         return '';
     }
@@ -530,46 +615,105 @@ async function createCertificationsSection(userProfile) {
     return '';
 }
 
-async function createAchievementsSection(userSkills, userProfile) {
+async function createAchievementsList(userSkills, userProfile) {
     if (!userSkills && !userProfile) {
-        return '';
+        return [];
     }
     
     try {
-        // Create achievements based on user's skills and profile
         const combinedText = `${userSkills || ''} ${userProfile || ''}`.trim();
-        if (combinedText === '') return '';
+        if (combinedText === '') return [];
         
-        // Ask AI to extract achievements from what user provided
         const response = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
             messages: [{
                 role: "system",
-                content: "Extract 2-3 potential achievements or strengths from the user's provided information. ONLY use information that is explicitly in the text. Do not invent anything new. Format each as a short bullet point starting with a verb."
+                content: "Extract 2-3 achievements or strengths from the user's text. Return as JSON array of strings."
             }, {
                 role: "user",
-                content: `From this information, extract 2-3 achievements or strengths that could be used in a CV: "${combinedText}"`
+                content: `From this text, extract 2-3 achievements or key strengths for a CV. Return ONLY JSON array: "${combinedText}"`
             }],
             temperature: 0.3,
-            max_tokens: 150
+            max_tokens: 200
         });
         
-        const achievementsText = response.choices[0].message.content.trim();
+        const content = response.choices[0].message.content.trim();
+        let achievements = [];
         
-        // Parse achievements into HTML
-        const achievements = achievementsText.split('\n').filter(line => line.trim());
-        if (achievements.length === 0) return '';
+        try {
+            const cleaned = content.replace(/```json\n?|\n?```/g, '').trim();
+            const parsed = JSON.parse(cleaned);
+            if (Array.isArray(parsed)) {
+                achievements = parsed;
+            } else if (typeof parsed === 'object') {
+                for (const key in parsed) {
+                    if (Array.isArray(parsed[key])) {
+                        achievements = parsed[key];
+                        break;
+                    }
+                }
+            }
+        } catch (e) {
+            console.log('Achievements JSON parse failed');
+        }
         
-        const achievementsHTML = achievements.slice(0, 3).map(achievement => 
-            `<div class="achievement-item">${achievement.trim().replace(/^[-•*]\s*/, '')}</div>`
-        ).join('\n        ');
+        // Fallback if no achievements extracted
+        if (achievements.length === 0) {
+            achievements = [
+                'Demonstrated professional capability',
+                'Consistent performance in previous roles',
+                'Strong work ethic and reliability'
+            ];
+        }
         
-        return achievementsHTML;
+        return achievements.slice(0, 3);
         
     } catch (error) {
         console.log('Achievements creation error:', error.message);
+        return [
+            'Professional achievements as detailed in experience',
+            'Proven track record of performance'
+        ];
+    }
+}
+
+// Helper function to convert array to <li> items
+function arrayToLiItems(items) {
+    if (!items || items.length === 0) {
+        return '<li>Information provided</li>';
+    }
+    
+    return items.map(item => `<li>${item}</li>`).join('\n        ');
+}
+
+// Helper function to create achievements HTML
+function achievementsToHTML(achievements) {
+    if (!achievements || achievements.length === 0) {
         return '';
     }
+    
+    const achievementsHTML = achievements.map(achievement => 
+        `<div class="achievement-item">• ${achievement}</div>`
+    ).join('\n        ');
+    
+    return `
+    <h2>Achievements & Strengths</h2>
+    <div style="margin-left: 20px;">
+        ${achievementsHTML}
+    </div>`;
+}
+
+// Helper function for certifications HTML
+function certificationsToHTML(certifications) {
+    if (!certifications || certifications.trim() === '') {
+        return '';
+    }
+    
+    return `
+    <h2>Certifications</h2>
+    <div class="certification-item">
+        ${certifications}
+    </div>`;
 }
 
 // ==================== CV GENERATION ENDPOINT ====================
@@ -629,6 +773,10 @@ app.post('/submit-cv-application', upload.single('profilePicture'), async (req, 
         const userHobbies = formData.hobbiesAndInterests ? formData.hobbiesAndInterests.trim() : '';
         const userEducation = formData.highestQualification ? formData.highestQualification.trim() : '';
         const userLanguages = formData.languages ? formData.languages.trim() : '';
+        const visaStatus = formData.visaStatus ? formData.visaStatus.trim() : 'Available';
+        const health = formData.health ? formData.health.trim() : 'Good';
+        const license = formData.license ? formData.license.trim() : 'Information provided';
+        const availability = formData.availability ? formData.availability.trim() : 'Immediately';
 
         console.log('Processing CV for:', fullName, 'Role:', targetRole);
 
@@ -670,28 +818,53 @@ app.post('/submit-cv-application', upload.single('profilePicture'), async (req, 
 
         console.log('Enhancing user content with AI...');
         
-        // Enhance ALL user content with AI (grammar, structure, professionalism)
+        // Process all sections in parallel for better performance
         const [
             professionalSummary,
             experienceSection,
-            skillsHTML,
-            enhancedLanguages,
-            enhancedHobbies,
-            enhancedEducation,
-            achievementsSection,
-            certificationsSection
+            skillsList,
+            educationList,
+            languagesList,
+            hobbiesList,
+            achievementsList,
+            certificationsSection,
+            enhancedHobbiesText,
+            enhancedEducationText
         ] = await Promise.all([
             createProfessionalSummary(userProfile, targetRole),
             createProfessionalExperience(userProfile, targetRole),
-            createSkillsSection(userSkills, targetRole),
-            userLanguages ? enhanceWithAI(userLanguages, 'languages') : 'English',
+            createSkillsList(userSkills),
+            createEducationList(userEducation),
+            createLanguagesList(userLanguages),
+            createHobbiesList(userHobbies),
+            createAchievementsList(userSkills, userProfile),
+            createCertificationsSection(userProfile),
             userHobbies ? enhanceWithAI(userHobbies, 'hobbies') : '',
-            userEducation ? enhanceWithAI(userEducation, 'education') : '',
-            createAchievementsSection(userSkills, userProfile),
-            createCertificationsSection(userProfile)
+            userEducation ? enhanceWithAI(userEducation, 'education') : ''
         ]);
 
-        // Prepare contact information - USE EXACT USER DATA
+        // Create personal details section
+        const personalDetails = [];
+        if (location) personalDetails.push(`Location: ${location}`);
+        if (nationality) personalDetails.push(`Nationality: ${nationality}`);
+        if (visaStatus) personalDetails.push(`Visa Status: ${visaStatus}`);
+        if (health) personalDetails.push(`Health: ${health}`);
+        if (license) personalDetails.push(`Driver's License: ${license}`);
+        if (personalDetails.length === 0) {
+            personalDetails.push('Details provided upon request');
+        }
+
+        // Create status section
+        const statusItems = [];
+        if (availability) statusItems.push(`Availability: ${availability}`);
+        if (formData.noticePeriod) statusItems.push(`Notice Period: ${formData.noticePeriod}`);
+        if (formData.salaryExpectations) statusItems.push(`Salary Expectations: ${formData.salaryExpectations}`);
+        if (statusItems.length === 0) {
+            statusItems.push('Available for opportunities');
+            statusItems.push('Flexible start date');
+        }
+
+        // Prepare contact information
         let contactInfo = '';
         if (email) contactInfo += email;
         if (phone) contactInfo += (contactInfo ? ' | ' : '') + phone;
@@ -705,40 +878,21 @@ app.post('/submit-cv-application', upload.single('profilePicture'), async (req, 
         const replacements = {
             '{{FULL_NAME}}': fullName || 'Your Name',
             '{{TARGET_ROLE}}': targetRole || 'Professional Role',
-            '{{EMAIL}}': email || '',
-            '{{PHONE}}': phone || '',
-            '{{LOCATION}}': location || '',
-            '{{NATIONALITY}}': nationality || '',
-            '{{LINKEDIN}}': 'Professional Profile',
+            '{{CONTACT_INFO}}': contactInfo,
             '{{PHOTO_HTML}}': photoBase64 ? 
                 `<img src="data:${photoFile.mimetype};base64,${photoBase64}" alt="Profile Photo" style="width:100%;height:100%;object-fit:cover;" />` : 
                 '<div style="text-align:center;padding:40px;color:#666;">Profile Photo</div>',
             '{{PROFESSIONAL_SUMMARY}}': professionalSummary,
             '{{EXPERIENCE_SECTION}}': experienceSection,
-            '{{ACHIEVEMENTS_SECTION}}': achievementsSection,
-            '{{CERTIFICATIONS_SECTION}}': certificationsSection,
-            '{{SKILLS_SECTION}}': skillsHTML,
-            '{{VISA_STATUS}}': formData.visaStatus || 'Information provided',
-            '{{HEALTH_STATUS}}': formData.health || 'Information provided',
-            '{{LANGUAGES}}': enhancedLanguages || 'English',
-            '{{DRIVERS_LICENSE}}': formData.license || 'Information provided',
-            '{{AVAILABILITY}}': 'Available',
-            '{{EDUCATION_SECTION}}': enhancedEducation ? `
-                <div class="education-item">
-                    <div class="education-degree">${enhancedEducation}</div>
-                </div>` : '<div class="education-item"><div class="education-degree">Education details provided</div></div>',
-            '{{CORE_COMPETENCIES}}': skillsHTML ? `
-                <ul>
-                    ${skillsHTML.includes('skill-item') ? 
-                        skillsHTML.match(/skill-item[^>]*>([^<]+)</g)
-                            ?.slice(0, 5)
-                            .map(match => `<li>${match.match(/>([^<]+)</)[1]}</li>`)
-                            .join('\n        ') || '<li>Professional skills</li>' 
-                        : '<li>Professional skills</li>'}
-                </ul>` : '<ul><li>Professional</li><li>Reliable</li><li>Dedicated</li></ul>',
-            '{{HOBBIES_SECTION}}': enhancedHobbies || '<ul><li>Professional development</li></ul>',
-            '{{REFERENCES_SECTION}}': '<div class="reference-item">References available upon request</div>',
-            '{{CONTACT_INFO}}': contactInfo
+            '{{ACHIEVEMENTS_SECTION}}': achievementsToHTML(achievementsList),
+            '{{CERTIFICATIONS_SECTION}}': certificationsToHTML(certificationsSection),
+            '{{PERSONAL_DETAILS_SECTION}}': arrayToLiItems(personalDetails),
+            '{{SKILLS_LIST_SECTION}}': arrayToLiItems(skillsList),
+            '{{EDUCATION_LIST_SECTION}}': arrayToLiItems(educationList),
+            '{{LANGUAGES_LIST_SECTION}}': arrayToLiItems(languagesList),
+            '{{HOBBIES_LIST_SECTION}}': arrayToLiItems(hobbiesList),
+            '{{STATUS_SECTION}}': arrayToLiItems(statusItems),
+            '{{REFERENCES_SECTION}}': '<div class="reference-item">References available upon request</div>'
         };
 
         // Apply all replacements to template
