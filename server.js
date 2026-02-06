@@ -19,6 +19,9 @@ const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
 const openaiApiKey = process.env.OPENAI_API_KEY;
 
+// Get base URL for redirects (use environment variable or fallback)
+const BASE_URL = process.env.BASE_URL || 'https://pullnorth2.onrender.com';
+
 // Validate environment
 if (!supabaseUrl || !supabaseKey) {
     console.error('ERROR: Missing Supabase credentials in .env file');
@@ -42,7 +45,18 @@ if (openaiApiKey) {
 const BUCKET_NAME = 'PullnorthCV2026';
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: [
+        'http://localhost:3000',
+        'http://localhost:3001',
+        'http://127.0.0.1:3000',
+        'https://pullnorth2.onrender.com',
+        BASE_URL
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('.'));
@@ -83,6 +97,10 @@ app.get('/dashboard', (req, res) => {
     res.sendFile(path.join(__dirname, 'files/dashy.html'));
 });
 
+app.get('/reset-password', (req, res) => {
+    res.sendFile(path.join(__dirname, 'files/reset-password.html'));
+});
+
 // ==================== AUTH ENDPOINTS ====================
 
 app.post('/auth/signup', async (req, res) => {
@@ -98,7 +116,8 @@ app.post('/auth/signup', async (req, res) => {
             password: password,
             options: {
                 data: { name: name },
-                emailRedirectTo: `${req.headers.origin}/dashboard`
+                // Use BASE_URL for consistent redirect
+                emailRedirectTo: `${BASE_URL}/dashboard`
             }
         });
 
@@ -186,9 +205,9 @@ app.post('/auth/forgot-password', async (req, res) => {
             return res.status(400).json({ error: 'Email is required' });
         }
 
-        // Use Supabase's built-in password reset
+        // Use BASE_URL for consistent redirect
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: `${req.headers.origin}/reset-password`,
+            redirectTo: `${BASE_URL}/reset-password`,
         });
 
         if (error) {
@@ -211,6 +230,39 @@ app.post('/auth/forgot-password', async (req, res) => {
     }
 });
 
+app.post('/auth/reset-password', async (req, res) => {
+    try {
+        const { token, password } = req.body;
+
+        if (!token || !password) {
+            return res.status(400).json({ error: 'Token and password are required' });
+        }
+
+        // Use Supabase's updateUser method to reset password
+        const { data, error } = await supabase.auth.updateUser({
+            password: password
+        }, {
+            auth: {
+                persistSession: false
+            }
+        });
+
+        if (error) {
+            console.error('Reset password error:', error.message);
+            return res.status(400).json({ error: 'Invalid or expired token' });
+        }
+
+        res.json({ 
+            success: true, 
+            message: 'Password reset successfully. You can now login with your new password.' 
+        });
+
+    } catch (error) {
+        console.error('Reset password error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 // ==================== RESEND VERIFICATION ENDPOINT ====================
 
 app.post('/auth/resend-verification', async (req, res) => {
@@ -221,12 +273,12 @@ app.post('/auth/resend-verification', async (req, res) => {
             return res.status(400).json({ error: 'Email is required' });
         }
 
-        // Use Supabase's built-in resend confirmation
+        // Use BASE_URL for consistent redirect
         const { error } = await supabase.auth.resend({
             type: 'signup',
             email: email,
             options: {
-                emailRedirectTo: `${req.headers.origin}/dashboard`
+                emailRedirectTo: `${BASE_URL}/dashboard`
             }
         });
 
@@ -292,7 +344,7 @@ app.get('/user/cvs', async (req, res) => {
                 
                 let title = file.name.replace('.pdf', '');
                 
-                const uuidRegex = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
+                const uuidRegex = /[09a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
                 if (title.match(uuidRegex)) {
                     const parts = title.split('-');
                     if (parts.length > 1) {
@@ -1025,7 +1077,9 @@ app.get('/health', (req, res) => {
         server: 'AI-Enhanced CV Generator',
         timestamp: new Date().toISOString(),
         ai: 'ENABLED - Grammar & Structure Enhancement Only',
-        dataPolicy: 'User Data Only - No Added Information'
+        dataPolicy: 'User Data Only - No Added Information',
+        baseUrl: BASE_URL,
+        environment: process.env.NODE_ENV || 'development'
     });
 });
 
@@ -1036,7 +1090,8 @@ app.listen(PORT, () => {
     console.log('=========================================');
     console.log('AI-Enhanced CV Generator Server');
     console.log('=========================================');
-    console.log(`Server running: http://localhost:${PORT}`);
+    console.log(`Server running on port: ${PORT}`);
+    console.log(`Base URL: ${BASE_URL}`);
     console.log('AI Enhancement: ENABLED ');
     console.log('Enhancement Type: Grammar & Structure Only');
     console.log('Data Policy: User Data Only - NO Added Information');
@@ -1047,6 +1102,7 @@ app.listen(PORT, () => {
     console.log('Login with JWT tokens');
     console.log('Password reset via Supabase');
     console.log('Resend verification email');
+    console.log('Redirect URLs configured for:', BASE_URL);
     console.log('=========================================');
     console.log('');
 
